@@ -1,0 +1,19 @@
+{
+  "name": "stockit",
+  "version": "1.0.0",
+  "description": "tbd",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alysharina/hr-rpp33-mvp.git"
+  },
+  "author": "Alysha Gilliard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alysharina/hr-rpp33-mvp/issues"
+  },
+  "homepage": "https://github.com/alysharina/hr-rpp33-mvp#readme"
+}
