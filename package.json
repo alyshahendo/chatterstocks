@@ -4,6 +4,8 @@
   "description": "tbd",
   "main": "index.js",
   "scripts": {
+    "start:client": "cd client npx liveserver index.html",
+    "start:server": "node server.j",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/alysharina/hr-rpp33-mvp/issues"
   },
-  "homepage": "https://github.com/alysharina/hr-rpp33-mvp#readme"
+  "homepage": "https://github.com/alysharina/hr-rpp33-mvp#readme",
+  "devDependencies": {
+    "react": "^17.0.2"
+  }
 }
