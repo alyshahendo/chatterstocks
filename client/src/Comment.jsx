@@ -1,8 +1,8 @@
 // users can comment on stocks
-function Comment () {
+function Comment (props) {
   return (
     <div className="comment">
-      Wow
+      {props.comment.username}
     </div>
   )
 }

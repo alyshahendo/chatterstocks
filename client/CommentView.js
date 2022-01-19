@@ -1,8 +1,10 @@
 // contain feed with comments about stock
-function CommentView() {
+function CommentView(props) {
   return React.createElement(
     "div",
     { id: "comment-view" },
-    React.createElement(Comment, null)
+    props.comments.map(function (comment) {
+      return React.createElement(Comment, { key: comment.id, comment: comment });
+    })
   );
 }
