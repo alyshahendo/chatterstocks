@@ -5,7 +5,7 @@ function AddComment (props) {
         <label htmlFor="add-comment">Add a comment:</label>
         <br/>
         <input onChange={props.updateCurrentCommentValue} type="text" name="add-comment"/>
-        <input type="submit"/>
+        <input onClick={props.saveComment} type="submit"/>
       </form>
     </div>
   )

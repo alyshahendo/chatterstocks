@@ -25,7 +25,9 @@ var App = function (_React$Component) {
 
     _this.state = {
       comments: exampleCommentData,
-      currentCommentValue: ''
+      currentCommentValue: '',
+      username: 'user',
+      stock: 'TSLA'
     };
     _this.updateCurrentCommentValue = _this.updateCurrentCommentValue.bind(_this);
     _this.saveComment = _this.saveComment.bind(_this);
@@ -34,15 +36,29 @@ var App = function (_React$Component) {
 
   _createClass(App, [{
     key: 'updateCurrentCommentValue',
-    value: function updateCurrentCommentValue() {
+    value: function updateCurrentCommentValue(e) {
       this.setState({
         currentCommentValue: event.target.value
       });
     }
   }, {
     key: 'saveComment',
-    value: function saveComment() {
-      $.ajax({});
+    value: function saveComment(e) {
+      e.preventDefault();
+      $.ajax({
+        url: 'http://127.0.0.1:3000/comment',
+        data: {
+          username: this.state.username,
+          text: this.state.currentCommentValue,
+          stock: this.state.stock
+        },
+        success: function success() {
+          console.log('Comment saved!');
+        },
+        error: function error(err) {
+          console.log('This is the error: ', err);
+        }
+      });
     }
   }, {
     key: 'render',

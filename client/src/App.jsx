@@ -10,21 +10,35 @@ class App extends React.Component {
     super(props)
     this.state = {
       comments: exampleCommentData,
-      currentCommentValue: ''
+      currentCommentValue: '',
+      username: 'user',
+      stock: 'TSLA'
     }
     this.updateCurrentCommentValue = this.updateCurrentCommentValue.bind(this);
     this.saveComment = this.saveComment.bind(this);
   }
 
-  updateCurrentCommentValue () {
+  updateCurrentCommentValue (e) {
     this.setState({
       currentCommentValue: event.target.value
     });
   }
 
-  saveComment () {
+  saveComment (e) {
+    e.preventDefault();
     $.ajax({
-
+      url: 'http://127.0.0.1:3000/comment',
+      data: {
+        username: this.state.username,
+        text: this.state.currentCommentValue,
+        stock: this.state.stock
+      },
+      success: () => {
+        console.log('Comment saved!');
+      },
+      error: (err) => {
+        console.log('This is the error: ', err);
+      }
     })
   }
 

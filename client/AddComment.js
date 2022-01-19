@@ -12,7 +12,7 @@ function AddComment(props) {
       ),
       React.createElement("br", null),
       React.createElement("input", { onChange: props.updateCurrentCommentValue, type: "text", name: "add-comment" }),
-      React.createElement("input", { type: "submit" })
+      React.createElement("input", { onClick: props.saveComment, type: "submit" })
     )
   );
 }
