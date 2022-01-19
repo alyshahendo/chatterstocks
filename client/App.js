@@ -21,7 +21,12 @@ var App = function (_React$Component) {
   function App(props) {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.state = {
+      comments: exampleCommentData
+    };
+    return _this;
   }
 
   _createClass(App, [{
@@ -37,7 +42,7 @@ var App = function (_React$Component) {
         ),
         React.createElement(AddComment, null),
         React.createElement('br', null),
-        React.createElement(CommentView, null)
+        React.createElement(CommentView, { comments: this.state.comments })
       );
     }
   }]);

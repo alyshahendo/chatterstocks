@@ -7,7 +7,7 @@ function AddComment() {
       null,
       React.createElement(
         "label",
-        { "for": "add-comment" },
+        { htmlFor: "add-comment" },
         "Add a comment:"
       ),
       React.createElement("br", null),

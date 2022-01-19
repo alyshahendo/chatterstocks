@@ -8,6 +8,9 @@ const { render } = ReactDOM;
 class App extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      comments: exampleCommentData
+    }
   }
 
   render() {
@@ -16,7 +19,7 @@ class App extends React.Component {
         <h1>App Name</h1>
         <AddComment />
         <br/>
-        <CommentView />
+        <CommentView comments={this.state.comments}/>
       </div>
     )
   }
