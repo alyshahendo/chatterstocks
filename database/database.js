@@ -1,5 +1,7 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+var mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+mongoose.connect('mongodb://127.0.0.1:27017/comments');
 
 const commentsSchema = new Schema({
   username: String,

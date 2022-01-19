@@ -42,7 +42,7 @@ class App extends React.Component {
     };
     $.ajax({
       url: 'http://127.0.0.1:3000/comment',
-      data: JSON.stringify(),
+      data: JSON.stringify(currentComment),
       method: 'POST',
       contentType: 'application/json',
       success: () => {
