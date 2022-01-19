@@ -1,0 +1,1 @@
+// contain feed with comments about stock

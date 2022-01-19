@@ -2,11 +2,13 @@
   "name": "stockit",
   "version": "1.0.0",
   "description": "tbd",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "start:client": "cd client npx liveserver index.html",
+    "start:client": "cd client && live-server",
     "start:server": "node server.j",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx babel --watch src --out-dir . --presets react-app/prod"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,18 @@
   },
   "homepage": "https://github.com/alysharina/hr-rpp33-mvp#readme",
   "devDependencies": {
-    "react": "^17.0.2"
-  }
+    "liveserver": "^0.1.20",
+    "node": "^17.3.1",
+    "react": "^17.0.2",
+    "webpack": "^5.66.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.3"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
+    "react-router-dom": "^6.2.1"
+  },
+  "main": "index.js",
+  "keywords": []
 }
