@@ -31,6 +31,7 @@ var App = function (_React$Component) {
     };
     _this.updateCurrentCommentValue = _this.updateCurrentCommentValue.bind(_this);
     _this.saveComment = _this.saveComment.bind(_this);
+    _this.updateComments = _this.updateComments.bind(_this);
     return _this;
   }
 
@@ -42,19 +43,32 @@ var App = function (_React$Component) {
       });
     }
   }, {
+    key: 'updateComments',
+    value: function updateComments(comment) {
+      var updatedComments = this.state.comments;
+      updatedComments.unshift(comment);
+      this.setState({
+        comments: updatedComments
+      });
+    }
+  }, {
     key: 'saveComment',
     value: function saveComment(e) {
+      var _this2 = this;
+
       e.preventDefault();
+      var currentComment = {
+        username: this.state.username,
+        text: this.state.currentCommentValue,
+        stock: this.state.stock
+      };
       $.ajax({
         url: 'http://127.0.0.1:3000/comment',
-        data: JSON.stringify({
-          username: this.state.username,
-          text: this.state.currentCommentValue,
-          stock: this.state.stock
-        }),
+        data: JSON.stringify(),
         method: 'POST',
         contentType: 'application/json',
         success: function success() {
+          _this2.updateComments(currentComment);
           console.log('Comment saved!');
         },
         error: function error(err) {

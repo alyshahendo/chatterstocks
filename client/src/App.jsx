@@ -16,6 +16,7 @@ class App extends React.Component {
     }
     this.updateCurrentCommentValue = this.updateCurrentCommentValue.bind(this);
     this.saveComment = this.saveComment.bind(this);
+    this.updateComments = this.updateComments.bind(this);
   }
 
   updateCurrentCommentValue (e) {
@@ -24,18 +25,28 @@ class App extends React.Component {
     });
   }
 
+  updateComments (comment) {
+    var updatedComments = this.state.comments;
+    updatedComments.unshift(comment);
+    this.setState({
+      comments: updatedComments
+    });
+  }
+
   saveComment (e) {
     e.preventDefault();
+    var currentComment = {
+      username: this.state.username,
+      text: this.state.currentCommentValue,
+      stock: this.state.stock
+    };
     $.ajax({
       url: 'http://127.0.0.1:3000/comment',
-      data: JSON.stringify({
-        username: this.state.username,
-        text: this.state.currentCommentValue,
-        stock: this.state.stock
-      }),
+      data: JSON.stringify(),
       method: 'POST',
       contentType: 'application/json',
       success: () => {
+        this.updateComments(currentComment)
         console.log('Comment saved!');
       },
       error: (err) => {
