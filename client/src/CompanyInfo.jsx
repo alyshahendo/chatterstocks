@@ -1,0 +1,1 @@
+// contains company name, price, ticker and company rating

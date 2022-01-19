@@ -1,0 +1,1 @@
+// users can comment on stocks

@@ -36,6 +36,7 @@ var App = function (_React$Component) {
           'App Name'
         ),
         React.createElement(Search, null),
+        React.createElement('br', null),
         React.createElement(CommentView, null)
       );
     }
