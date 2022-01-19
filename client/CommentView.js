@@ -3,10 +3,6 @@ function CommentView() {
   return React.createElement(
     "div",
     { id: "comment-view" },
-    React.createElement(
-      "div",
-      { className: "comment" },
-      "I dont like this"
-    )
+    React.createElement(Comment, null)
   );
 }

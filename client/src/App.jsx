@@ -14,7 +14,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>App Name</h1>
-        <Search />
+        <AddComment />
         <br/>
         <CommentView />
       </div>
