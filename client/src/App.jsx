@@ -15,6 +15,7 @@ class App extends React.Component {
       <div>
         <h1>App Name</h1>
         <Search />
+        <CommentView />
       </div>
     )
   }
