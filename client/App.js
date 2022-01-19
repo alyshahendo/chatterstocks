@@ -47,11 +47,13 @@ var App = function (_React$Component) {
       e.preventDefault();
       $.ajax({
         url: 'http://127.0.0.1:3000/comment',
-        data: {
+        data: JSON.stringify({
           username: this.state.username,
           text: this.state.currentCommentValue,
           stock: this.state.stock
-        },
+        }),
+        method: 'POST',
+        contentType: 'application/json',
         success: function success() {
           console.log('Comment saved!');
         },

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/alysharina/hr-rpp33-mvp#readme",
   "devDependencies": {
+    "body-parser": "^1.19.1",
     "cors": "^2.8.5",
     "jquery": "^3.6.0",
     "liveserver": "^0.1.20",
