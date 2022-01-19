@@ -24,12 +24,27 @@ var App = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.state = {
-      comments: exampleCommentData
+      comments: exampleCommentData,
+      currentCommentValue: ''
     };
+    _this.updateCurrentCommentValue = _this.updateCurrentCommentValue.bind(_this);
+    _this.saveComment = _this.saveComment.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
+    key: 'updateCurrentCommentValue',
+    value: function updateCurrentCommentValue() {
+      this.setState({
+        currentCommentValue: event.target.value
+      });
+    }
+  }, {
+    key: 'saveComment',
+    value: function saveComment() {
+      $.ajax({});
+    }
+  }, {
     key: 'render',
     value: function render() {
       return React.createElement(
@@ -40,7 +55,7 @@ var App = function (_React$Component) {
           null,
           'App Name'
         ),
-        React.createElement(AddComment, null),
+        React.createElement(AddComment, { updateCurrentCommentValue: this.updateCurrentCommentValue, saveComment: this.saveComment }),
         React.createElement('br', null),
         React.createElement(CommentView, { comments: this.state.comments })
       );

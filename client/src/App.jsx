@@ -9,15 +9,30 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      comments: exampleCommentData
+      comments: exampleCommentData,
+      currentCommentValue: ''
     }
+    this.updateCurrentCommentValue = this.updateCurrentCommentValue.bind(this);
+    this.saveComment = this.saveComment.bind(this);
+  }
+
+  updateCurrentCommentValue () {
+    this.setState({
+      currentCommentValue: event.target.value
+    });
+  }
+
+  saveComment () {
+    $.ajax({
+
+    })
   }
 
   render() {
     return (
       <div>
         <h1>App Name</h1>
-        <AddComment />
+        <AddComment updateCurrentCommentValue={this.updateCurrentCommentValue} saveComment={this.saveComment}/>
         <br/>
         <CommentView comments={this.state.comments}/>
       </div>

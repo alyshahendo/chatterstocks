@@ -1,4 +1,4 @@
-function AddComment() {
+function AddComment(props) {
   return React.createElement(
     "div",
     null,
@@ -11,7 +11,7 @@ function AddComment() {
         "Add a comment:"
       ),
       React.createElement("br", null),
-      React.createElement("input", { type: "text", name: "add-comment" }),
+      React.createElement("input", { onChange: props.updateCurrentCommentValue, type: "text", name: "add-comment" }),
       React.createElement("input", { type: "submit" })
     )
   );
