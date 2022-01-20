@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 app.get('/comment', (req, res) => {
   var stock = req.query
-  return db.find(stock)
+  return db.find(stock).sort({ created_at: 'desc' })
   .then((comments) => {
     res.send(comments);
   }).catch((err) =>{
