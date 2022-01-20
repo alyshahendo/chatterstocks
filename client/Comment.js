@@ -16,7 +16,7 @@ function Comment(props) {
     React.createElement(
       "div",
       { className: "created-at" },
-      props.comment.created_at
+      props.comment.created_at.substring(0, 10) + ' ' + props.comment.created_at.substring(11, 16)
     ),
     React.createElement("br", null)
   );
