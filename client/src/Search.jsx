@@ -6,7 +6,7 @@ function Search (props) {
         <label htmlFor="search">Search:</label>
         <br/>
         <input onChange={props.updateCurrentStock} name="search" type="text"/>
-        <input type="submit"/>
+        <input onClick={props.retrieveStockInformation} type="submit"/>
       </form>
     </div>
   )

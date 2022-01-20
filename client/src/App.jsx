@@ -7,11 +7,14 @@ class App extends React.Component {
     super(props)
     this.state = {
       username: 'user',
-      stock: 'TSLA'
+      stock: 'TSLA',
+      stockPrice: 0
     }
     this.askForUsername = this.askForUsername.bind(this);
     this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
     this.updateCurrentStock = this.updateCurrentStock.bind(this);
+    this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
+    this.updateStockPrice = this.updateStockPrice.bind(this);
   }
 
   componentDidMount () {
@@ -32,7 +35,14 @@ class App extends React.Component {
     console.log(this.state.stock);
   }
 
-  retrieveStockInformation () {
+  updateStockPrice (price) {
+    this.setState ({
+      stockPrice: price
+    })
+  }
+
+  retrieveStockInformation (e) {
+    e.preventDefault();
     var stockData = {
       stock: this.state.stock
     };
@@ -42,8 +52,9 @@ class App extends React.Component {
       data: stockData,
       method: 'GET',
       contentType: 'application/json',
-      success: (comments) => {
-        console.log('Comments updated: ', comments);
+      success: (price) => {
+        this.updateStockPrice(price)
+        console.log('Stock price updated ', price);
       },
       error: (err) => {
         console.log('This is the error: ', err);
@@ -55,7 +66,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>App Name</h1>
-        <Search updateCurrentStock={this.updateCurrentStock}/>
+        <Search updateCurrentStock={this.updateCurrentStock} retrieveStockInformation={this.retrieveStockInformation}/>
         <br/>
         <CommentView stock={this.state.stock}/>
       </div>

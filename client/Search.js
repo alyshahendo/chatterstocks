@@ -13,7 +13,7 @@ function Search(props) {
       ),
       React.createElement("br", null),
       React.createElement("input", { onChange: props.updateCurrentStock, name: "search", type: "text" }),
-      React.createElement("input", { type: "submit" })
+      React.createElement("input", { onClick: props.retrieveStockInformation, type: "submit" })
     )
   );
 }

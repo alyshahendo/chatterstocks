@@ -22,11 +22,14 @@ var App = function (_React$Component) {
 
     _this.state = {
       username: 'user',
-      stock: 'TSLA'
+      stock: 'TSLA',
+      stockPrice: 0
     };
     _this.askForUsername = _this.askForUsername.bind(_this);
     _this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
     _this.updateCurrentStock = _this.updateCurrentStock.bind(_this);
+    _this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
+    _this.updateStockPrice = _this.updateStockPrice.bind(_this);
     return _this;
   }
 
@@ -52,8 +55,18 @@ var App = function (_React$Component) {
       console.log(this.state.stock);
     }
   }, {
+    key: 'updateStockPrice',
+    value: function updateStockPrice(price) {
+      this.setState({
+        stockPrice: price
+      });
+    }
+  }, {
     key: 'retrieveStockInformation',
-    value: function retrieveStockInformation() {
+    value: function retrieveStockInformation(e) {
+      var _this2 = this;
+
+      e.preventDefault();
       var stockData = {
         stock: this.state.stock
       };
@@ -63,8 +76,9 @@ var App = function (_React$Component) {
         data: stockData,
         method: 'GET',
         contentType: 'application/json',
-        success: function success(comments) {
-          console.log('Comments updated: ', comments);
+        success: function success(price) {
+          _this2.updateStockPrice(price);
+          console.log('Stock price updated ', price);
         },
         error: function error(err) {
           console.log('This is the error: ', err);
@@ -82,7 +96,7 @@ var App = function (_React$Component) {
           null,
           'App Name'
         ),
-        React.createElement(Search, { updateCurrentStock: this.updateCurrentStock }),
+        React.createElement(Search, { updateCurrentStock: this.updateCurrentStock, retrieveStockInformation: this.retrieveStockInformation }),
         React.createElement('br', null),
         React.createElement(CommentView, { stock: this.state.stock })
       );
