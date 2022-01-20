@@ -3,7 +3,7 @@ function CommentView (props) {
   return (
     <div id="comment-view">
       {props.comments.map((comment) => {
-        return <Comment key ={comment.id} comment={comment}/>
+        return <Comment key ={comment._id} comment={comment}/>
       })}
     </div>
   )

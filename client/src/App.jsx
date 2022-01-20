@@ -1,22 +1,25 @@
 // main app component
-// import React from 'react';
-// import ReactDom from 'react-dom';
 const { Component } = React;
 const { render } = ReactDOM;
-// import Search from '/client/src/Search.jsx'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      comments: exampleCommentData,
+      comments: [],
       currentCommentValue: '',
       username: 'user',
       stock: 'TSLA'
     }
     this.updateCurrentCommentValue = this.updateCurrentCommentValue.bind(this);
     this.saveComment = this.saveComment.bind(this);
-    this.updateComments = this.updateComments.bind(this);
+    this.addNewComment = this.addNewComment.bind(this);
+    this.retrieveComments = this.retrieveComments.bind(this);
+    this.updateAllComments = this.updateAllComments.bind(this);
+  }
+
+  componentDidMount () {
+    this.retrieveComments();
   }
 
   updateCurrentCommentValue (e) {
@@ -25,11 +28,17 @@ class App extends React.Component {
     });
   }
 
-  updateComments (comment) {
+  addNewComment (comment) {
     var updatedComments = this.state.comments;
     updatedComments.unshift(comment);
     this.setState({
       comments: updatedComments
+    });
+  }
+
+  updateAllComments (comments) {
+    this.setState({
+      comments: comments
     });
   }
 
@@ -40,19 +49,40 @@ class App extends React.Component {
       text: this.state.currentCommentValue,
       stock: this.state.stock
     };
+
     $.ajax({
       url: 'http://127.0.0.1:3000/comment',
       data: JSON.stringify(currentComment),
       method: 'POST',
       contentType: 'application/json',
       success: () => {
-        this.updateComments(currentComment)
+        this.addNewComment(currentComment)
         console.log('Comment saved!');
       },
       error: (err) => {
         console.log('This is the error: ', err);
       }
-    })
+    });
+  }
+
+  retrieveComments () {
+    var stockData = {
+      stock: this.state.stock
+    };
+
+    $.ajax({
+      url: 'http://127.0.0.1:3000/comment',
+      data: stockData,
+      method: 'GET',
+      contentType: 'application/json',
+      success: (comments) => {
+        this.updateAllComments(comments);
+        console.log('Comments updated: ', comments);
+      },
+      error: (err) => {
+        console.log('This is the error: ', err);
+      }
+    });
   }
 
   render() {

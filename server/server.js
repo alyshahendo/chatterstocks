@@ -7,6 +7,16 @@ var app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get('/comment', (req, res) => {
+  var stock = req.query
+  return db.find(stock)
+  .then((comments) => {
+    res.send(comments);
+  }).catch((err) =>{
+    console.log('this is the err: ', err);
+  });
+});
+
 app.post('/comment', (req, res) => {
   var comment = {
     username: req.body.user,
@@ -18,7 +28,7 @@ app.post('/comment', (req, res) => {
   .then((collection) => {
     console.log(collection);
     // db.find({ stock: })
-    res.send();
+    res.end();
   }).catch((err) => {
     console.log('this is the err: ', err);
   });

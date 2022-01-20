@@ -4,7 +4,7 @@ function CommentView(props) {
     "div",
     { id: "comment-view" },
     props.comments.map(function (comment) {
-      return React.createElement(Comment, { key: comment.id, comment: comment });
+      return React.createElement(Comment, { key: comment._id, comment: comment });
     })
   );
 }
