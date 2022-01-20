@@ -2,11 +2,17 @@
 function Search() {
   return React.createElement(
     "div",
-    null,
+    { id: "search" },
     React.createElement(
       "form",
       null,
-      React.createElement("input", { type: "text" }),
+      React.createElement(
+        "label",
+        { htmlFor: "search" },
+        "Search:"
+      ),
+      React.createElement("br", null),
+      React.createElement("input", { name: "search", type: "text" }),
       React.createElement("input", { type: "submit" })
     )
   );

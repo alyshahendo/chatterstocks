@@ -132,6 +132,7 @@ var App = function (_React$Component) {
           null,
           'App Name'
         ),
+        React.createElement(Search, null),
         React.createElement(AddComment, { updateCurrentCommentValue: this.updateCurrentCommentValue, saveComment: this.saveComment }),
         React.createElement('br', null),
         React.createElement(CommentView, { comments: this.state.comments })

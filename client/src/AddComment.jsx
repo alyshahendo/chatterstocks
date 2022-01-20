@@ -1,6 +1,6 @@
 function AddComment (props) {
   return (
-    <div>
+    <div id="add-comment">
       <form>
         <label htmlFor="add-comment">Add a comment:</label>
         <br/>

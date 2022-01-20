@@ -1,7 +1,7 @@
 function AddComment(props) {
   return React.createElement(
     "div",
-    null,
+    { id: "add-comment" },
     React.createElement(
       "form",
       null,

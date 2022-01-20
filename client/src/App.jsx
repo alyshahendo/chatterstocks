@@ -98,6 +98,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>App Name</h1>
+        <Search />
         <AddComment updateCurrentCommentValue={this.updateCurrentCommentValue} saveComment={this.saveComment}/>
         <br/>
         <CommentView comments={this.state.comments}/>
