@@ -31,13 +31,23 @@ var App = function (_React$Component) {
     _this.addNewComment = _this.addNewComment.bind(_this);
     _this.retrieveComments = _this.retrieveComments.bind(_this);
     _this.updateAllComments = _this.updateAllComments.bind(_this);
+    _this.askForUsername = _this.askForUsername.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      this.askForUsername();
       this.retrieveComments();
+    }
+  }, {
+    key: 'askForUsername',
+    value: function askForUsername() {
+      var usernamePrompt = window.prompt('What is your name?');
+      this.setState({
+        username: usernamePrompt
+      });
     }
   }, {
     key: 'updateCurrentCommentValue',

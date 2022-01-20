@@ -16,10 +16,19 @@ class App extends React.Component {
     this.addNewComment = this.addNewComment.bind(this);
     this.retrieveComments = this.retrieveComments.bind(this);
     this.updateAllComments = this.updateAllComments.bind(this);
+    this.askForUsername = this.askForUsername.bind(this);
   }
 
   componentDidMount () {
+    this.askForUsername();
     this.retrieveComments();
+  }
+
+  askForUsername () {
+    var usernamePrompt = window.prompt('What is your name?');
+    this.setState({
+      username: usernamePrompt
+    })
   }
 
   updateCurrentCommentValue (e) {
