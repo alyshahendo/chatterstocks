@@ -79,8 +79,8 @@ var App = function (_React$Component) {
         data: JSON.stringify(currentComment),
         method: 'POST',
         contentType: 'application/json',
-        success: function success() {
-          _this2.addNewComment(currentComment);
+        success: function success(comment) {
+          _this2.addNewComment(comment);
           console.log('Comment saved!');
         },
         error: function error(err) {

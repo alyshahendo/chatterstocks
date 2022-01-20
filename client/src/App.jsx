@@ -55,8 +55,8 @@ class App extends React.Component {
       data: JSON.stringify(currentComment),
       method: 'POST',
       contentType: 'application/json',
-      success: () => {
-        this.addNewComment(currentComment)
+      success: (comment) => {
+        this.addNewComment(comment);
         console.log('Comment saved!');
       },
       error: (err) => {
