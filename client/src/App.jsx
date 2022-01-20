@@ -10,6 +10,8 @@ class App extends React.Component {
       stock: 'TSLA'
     }
     this.askForUsername = this.askForUsername.bind(this);
+    this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
+    this.updateCurrentStock = this.updateCurrentStock.bind(this);
   }
 
   componentDidMount () {
@@ -23,18 +25,24 @@ class App extends React.Component {
     })
   }
 
-  retrieveStock () {
+  updateCurrentStock () {
+    this.setState({
+      stock: event.target.value
+    });
+    console.log(this.state.stock);
+  }
+
+  retrieveStockInformation () {
     var stockData = {
       stock: this.state.stock
     };
 
     $.ajax({
-      url: 'http://127.0.0.1:3000/comment',
+      url: 'http://127.0.0.1:3000/stock',
       data: stockData,
       method: 'GET',
       contentType: 'application/json',
       success: (comments) => {
-        this.updateAllComments(comments);
         console.log('Comments updated: ', comments);
       },
       error: (err) => {
@@ -47,7 +55,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>App Name</h1>
-        <Search />
+        <Search updateCurrentStock={this.updateCurrentStock}/>
         <br/>
         <CommentView stock={this.state.stock}/>
       </div>

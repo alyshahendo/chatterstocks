@@ -1,5 +1,5 @@
 // search feature to bring up a stock's information
-function Search() {
+function Search(props) {
   return React.createElement(
     "div",
     { id: "search" },
@@ -12,7 +12,7 @@ function Search() {
         "Search:"
       ),
       React.createElement("br", null),
-      React.createElement("input", { name: "search", type: "text" }),
+      React.createElement("input", { onChange: props.updateCurrentStock, name: "search", type: "text" }),
       React.createElement("input", { type: "submit" })
     )
   );

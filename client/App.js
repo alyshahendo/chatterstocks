@@ -25,6 +25,8 @@ var App = function (_React$Component) {
       stock: 'TSLA'
     };
     _this.askForUsername = _this.askForUsername.bind(_this);
+    _this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
+    _this.updateCurrentStock = _this.updateCurrentStock.bind(_this);
     return _this;
   }
 
@@ -42,21 +44,26 @@ var App = function (_React$Component) {
       });
     }
   }, {
-    key: 'retrieveStock',
-    value: function retrieveStock() {
-      var _this2 = this;
-
+    key: 'updateCurrentStock',
+    value: function updateCurrentStock() {
+      this.setState({
+        stock: event.target.value
+      });
+      console.log(this.state.stock);
+    }
+  }, {
+    key: 'retrieveStockInformation',
+    value: function retrieveStockInformation() {
       var stockData = {
         stock: this.state.stock
       };
 
       $.ajax({
-        url: 'http://127.0.0.1:3000/comment',
+        url: 'http://127.0.0.1:3000/stock',
         data: stockData,
         method: 'GET',
         contentType: 'application/json',
         success: function success(comments) {
-          _this2.updateAllComments(comments);
           console.log('Comments updated: ', comments);
         },
         error: function error(err) {
@@ -75,7 +82,7 @@ var App = function (_React$Component) {
           null,
           'App Name'
         ),
-        React.createElement(Search, null),
+        React.createElement(Search, { updateCurrentStock: this.updateCurrentStock }),
         React.createElement('br', null),
         React.createElement(CommentView, { stock: this.state.stock })
       );

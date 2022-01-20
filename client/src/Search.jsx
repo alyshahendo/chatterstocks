@@ -1,11 +1,11 @@
 // search feature to bring up a stock's information
-function Search () {
+function Search (props) {
   return (
     <div id="search">
       <form>
         <label htmlFor="search">Search:</label>
         <br/>
-        <input name="search" type="text"/>
+        <input onChange={props.updateCurrentStock} name="search" type="text"/>
         <input type="submit"/>
       </form>
     </div>
