@@ -12,10 +12,24 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/search', (req, res) => {
-  var searchValue = req.query.value;
+  var searchValue = encodeURIComponent(req.query.value);
+  var url = `https://api.twitter.com/2/tweets/search/recent?query=${searchValue}&tweet.fields=created_at&max_results=50 -H`;
+  $.ajax({
+    url: url,
+    method: 'GET',
+    contentType: 'application/json',
+    beforeSend: (xhr) => {
+      xhr.setRequestHeader('Authorization', API_key);
+    },
+    success: (tweets) => {
+      console.log('sent!', tweets);
+      res.send(200);
+    },
+    error: (err) => {
+      console.log('This is the error: ', err);
+    }
+  });
 
-  console.log('sent!', res);
-  res.send(200);
 });
 
 app.listen(3000, () => {
