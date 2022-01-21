@@ -7,10 +7,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 // main app component
-var _React = React,
-    Component = _React.Component;
-var _ReactDOM = ReactDOM,
-    render = _ReactDOM.render;
+import React, { useEffect, useRef } from 'react';
+import Search from './Search';
+import CompanyInfo from './CompanyInfo';
+import CommentView from './CommentView';
+import $ from 'jquery';
 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
@@ -27,18 +28,17 @@ var App = function (_React$Component) {
       stockInfo: {},
       comments: [],
       currentCommentValue: ''
-    };
-    _this.askForUsername = _this.askForUsername.bind(_this);
-    _this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
-    _this.updateCurrentStock = _this.updateCurrentStock.bind(_this);
-    _this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
-    _this.updateStockPrice = _this.updateStockPrice.bind(_this);
-    _this.updateStockInfo = _this.updateStockInfo.bind(_this);
+      // this.askForUsername = this.askForUsername.bind(this);
+      // this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
+      // this.updateCurrentStock = this.updateCurrentStock.bind(this);
+      // this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
+      // this.updateStockPrice = this.updateStockPrice.bind(this);
+      // this.updateStockInfo = this.updateStockInfo.bind(this);
 
-    _this.updateCurrentCommentValue = _this.updateCurrentCommentValue.bind(_this);
-    _this.saveComment = _this.saveComment.bind(_this);
-    _this.addNewComment = _this.addNewComment.bind(_this);
-    _this.retrieveComments = _this.retrieveComments.bind(_this);
+      // this.updateCurrentCommentValue = this.updateCurrentCommentValue.bind(this);
+      // this.saveComment = this.saveComment.bind(this);
+      // this.addNewComment = this.addNewComment.bind(this);
+    };_this.retrieveComments = _this.retrieveComments.bind(_this);
     _this.updateAllComments = _this.updateAllComments.bind(_this);
     return _this;
   }
@@ -46,24 +46,22 @@ var App = function (_React$Component) {
   _createClass(App, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.retrieveStockInformation();
-      this.retrieveComments();
-    }
-  }, {
-    key: 'updateCurrentCommentValue',
-    value: function updateCurrentCommentValue(e) {
-      this.setState({
-        currentCommentValue: event.target.value
+      var _this2 = this;
+
+      this.serverRequest = this.retrieveComments(function (err, comments) {
+        if (err == null) {
+          _this2.updateAllComments(comments);
+        } else {
+          if (err.statusText !== 'abort') {
+            console.log('Error loading comments: ', err);
+          }
+        }
       });
     }
   }, {
-    key: 'addNewComment',
-    value: function addNewComment(comment) {
-      var updatedComments = this.state.comments;
-      updatedComments.unshift(comment);
-      this.setState({
-        comments: updatedComments
-      });
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.serverRequest.abort();
     }
   }, {
     key: 'updateAllComments',
@@ -73,114 +71,124 @@ var App = function (_React$Component) {
       });
     }
   }, {
-    key: 'saveComment',
-    value: function saveComment(e) {
-      var _this2 = this;
-
-      e.preventDefault();
-      var currentComment = {
-        username: this.state.username,
-        text: this.state.currentCommentValue,
-        stock: this.state.stock
-      };
-
-      $.ajax({
-        url: 'http://127.0.0.1:3000/comment',
-        data: JSON.stringify(currentComment),
-        method: 'POST',
-        contentType: 'application/json',
-        success: function success(comment) {
-          _this2.addNewComment(comment);
-          console.log('Comment saved!');
-        },
-        error: function error(err) {
-          console.log('This is the error: ', err);
-        }
-      });
-    }
-  }, {
     key: 'retrieveComments',
-    value: function retrieveComments() {
-      var _this3 = this;
-
+    value: function retrieveComments(callback) {
       var stockData = {
         stock: this.state.stock
       };
-      console.log('is ths riht?', stockData);
-      $.ajax({
+
+      return $.ajax({
         url: 'http://127.0.0.1:3000/comment',
         data: stockData,
         method: 'GET',
         contentType: 'application/json',
         success: function success(comments) {
-          _this3.updateAllComments(comments);
+          // if (_isMounted.current) {
           console.log('Comments updated: ', comments);
+          callback(null, comments);
+          // }
         },
         error: function error(err) {
-          console.log('This is the error: ', err);
+          if (err.statusText !== 'abort') {
+            console.log('Error loading comments: ', err);
+          }
+          callback(err);
         }
       });
     }
-  }, {
-    key: 'askForUsername',
-    value: function askForUsername() {
-      var usernamePrompt = window.prompt('What is your name?');
-      this.setState({
-        username: usernamePrompt
-      });
-    }
-  }, {
-    key: 'updateCurrentStock',
-    value: function updateCurrentStock() {
-      var ticker = event.target.value.toUpperCase();
-      console.log(ticker);
-      this.setState({
-        stock: ticker
-      });
-    }
-  }, {
-    key: 'updateStockPrice',
-    value: function updateStockPrice(price) {
-      this.setState({
-        stockPrice: price
-      });
-    }
-  }, {
-    key: 'updateStockInfo',
-    value: function updateStockInfo(stockInfo) {
-      this.setState({
-        stockInfo: stockInfo
-      });
-    }
-  }, {
-    key: 'retrieveStockInformation',
-    value: function retrieveStockInformation(e) {
-      var _this4 = this;
 
-      if (e) {
-        e.preventDefault();
-      }
+    // updateCurrentCommentValue (e) {
+    //   this.setState({
+    //     currentCommentValue: event.target.value
+    //   });
+    // }
 
-      var stockData = {
-        stock: this.state.stock
-      };
+    // addNewComment (comment) {
+    //   var updatedComments = this.state.comments;
+    //   updatedComments.unshift(comment);
+    //   this.setState({
+    //     comments: updatedComments
+    //   });
+    // }
 
-      $.ajax({
-        url: 'http://127.0.0.1:3000/stock',
-        data: stockData,
-        method: 'GET',
-        contentType: 'application/json',
-        success: function success(stockData) {
-          console.log('here is the company information:', stockData);
-          _this4.updateStockPrice(stockData.currentPrice);
-          _this4.updateStockInfo(stockData.info.results);
-          _this4.retrieveComments();
-        },
-        error: function error(err) {
-          console.log('This is the error: ', err);
-        }
-      });
-    }
+
+    // saveComment (e) {
+    //   e.preventDefault();
+    //   var currentComment = {
+    //     username: this.state.username,
+    //     text: this.state.currentCommentValue,
+    //     stock: this.state.stock
+    //   };
+
+    //   $.ajax({
+    //     url: 'http://127.0.0.1:3000/comment',
+    //     data: JSON.stringify(currentComment),
+    //     method: 'POST',
+    //     contentType: 'application/json',
+    //     success: (comment) => {
+    //       this.addNewComment(comment);
+    //       console.log('Comment saved!');
+    //     },
+    //     error: (err) => {
+    //       console.log('This is the error: ', err);
+    //     }
+    //   });
+    // }
+
+
+    // askForUsername () {
+    //   var usernamePrompt = window.prompt('What is your name?');
+    //   this.setState({
+    //     username: usernamePrompt
+    //   })
+    // }
+
+    // updateCurrentStock () {
+    //   var ticker = event.target.value.toUpperCase();
+    //   console.log(ticker)
+    //   this.setState({
+    //     stock: ticker
+    //   });
+    // }
+
+    // updateStockPrice (price) {
+    //   this.setState ({
+    //     stockPrice: price
+    //   })
+    // }
+
+    // updateStockInfo (stockInfo) {
+    //   this.setState ({
+    //     stockInfo: stockInfo
+    //   })
+    // }
+
+    // retrieveStockInformation (e) {
+    //   if (e) {
+    //     e.preventDefault();
+    //   }
+
+    //   var stockData = {
+    //     stock: this.state.stock
+    //   };
+
+    //   return $.ajax({
+    //     url: 'http://127.0.0.1:3000/stock',
+    //     data: stockData,
+    //     method: 'GET',
+    //     contentType: 'application/json',
+    //     success: (stockData) => {
+    //       console.log('here is the company information:', stockData)
+    //       this.updateStockPrice(stockData.currentPrice);
+    //       this.updateStockInfo(stockData.info.results);
+    //       this.retrieveComments();
+    //     },
+    //     error: (err) => {
+    //       console.log('This is the error: ', err);
+    //     }
+    //   });
+    // }
+
   }, {
     key: 'render',
     value: function render() {
@@ -192,9 +200,7 @@ var App = function (_React$Component) {
           null,
           'App Name'
         ),
-        React.createElement(Search, { updateCurrentStock: this.updateCurrentStock, retrieveStockInformation: this.retrieveStockInformation }),
         React.createElement('br', null),
-        React.createElement(CompanyInfo, { stockInfo: this.state.stockInfo, stockPrice: this.state.stockPrice }),
         React.createElement('br', null),
         React.createElement(CommentView, { comments: this.state.comments, stock: this.state.stock })
       );
@@ -204,5 +210,4 @@ var App = function (_React$Component) {
   return App;
 }(React.Component);
 
-var appElement = document.getElementById('app');
-ReactDOM.render(React.createElement(App, null), appElement);
+export default App;

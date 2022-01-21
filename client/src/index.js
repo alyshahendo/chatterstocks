@@ -1,19 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-class CommentView extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-
-    }
-
-  }
-
-  render() {
-    return (
-      <div id="comment-view">
-        hello
-      </div>
-    )
-  }
-}
+ReactDOM.render(
+  <App />,
+  document.getElementById('app')
+);

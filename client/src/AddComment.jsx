@@ -1,3 +1,5 @@
+import React from 'react';
+
 function AddComment (props) {
   return (
     <div id="add-comment">
@@ -10,3 +12,5 @@ function AddComment (props) {
     </div>
   )
 }
+
+export default AddComment;

@@ -1,4 +1,6 @@
 // users can comment on stocks
+import React from 'react';
+
 function Comment (props) {
   return (
     <div className="comment">
@@ -9,3 +11,5 @@ function Comment (props) {
     </div>
   )
 }
+
+export default Comment;

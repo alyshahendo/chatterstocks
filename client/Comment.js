@@ -1,4 +1,6 @@
 // users can comment on stocks
+import React from 'react';
+
 function Comment(props) {
   return React.createElement(
     "div",
@@ -21,3 +23,5 @@ function Comment(props) {
     React.createElement("br", null)
   );
 }
+
+export default Comment;

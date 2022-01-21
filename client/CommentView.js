@@ -7,26 +7,64 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 // contain feed with comments about stock
+import React from 'react';
+import AddComment from './AddComment';
+import Comment from './Comment';
+
 var CommentView = function (_React$Component) {
   _inherits(CommentView, _React$Component);
 
   function CommentView(props) {
     _classCallCheck(this, CommentView);
 
-    var _this = _possibleConstructorReturn(this, (CommentView.__proto__ || Object.getPrototypeOf(CommentView)).call(this, props));
-
-    _this.state = {};
-
-    return _this;
+    return _possibleConstructorReturn(this, (CommentView.__proto__ || Object.getPrototypeOf(CommentView)).call(this, props));
   }
 
+  // componentDidMount () {
+  //   this.retrieveComments((err, comments) => {
+  //     if (err == null) {
+  //       // this.updateAllComments(comments);
+  //     } else {
+  //       throw err;
+  //     }
+  //   });
+  // }
+
+  // updateAllComments (comments) {
+  //   this.setState({
+  //     comments: comments
+  //   });
+  // }
+
+  // retrieveComments (callback) {
+  //   var stockData = {
+  //     stock: this.state.stock
+  //   };
+
+  //   return $.ajax({
+  //     url: 'http://127.0.0.1:3000/comment',
+  //     data: stockData,
+  //     method: 'GET',
+  //     contentType: 'application/json',
+  //     success: (comments) => {
+  //       // if (_isMounted.current) {
+  //         console.log('Comments updated: ', comments);
+  //         callback(null, comments);
+  //       // }
+  //     },
+  //     error: (err) => {
+  //       console.log('This is the error: ', err);
+  //       callback(err);
+  //     }
+  //   });
+  // }
+
   _createClass(CommentView, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { id: "comment-view" },
-        React.createElement(AddComment, { updateCurrentCommentValue: this.updateCurrentCommentValue, saveComment: this.saveComment }),
+        'div',
+        { id: 'comment-view' },
         this.props.comments.map(function (comment) {
           return React.createElement(Comment, { key: comment._id, comment: comment });
         })
@@ -36,3 +74,5 @@ var CommentView = function (_React$Component) {
 
   return CommentView;
 }(React.Component);
+
+export default CommentView;

@@ -1,4 +1,6 @@
 // contains company name, price, ticker and company rating
+import React from 'react';
+
 function CompanyInfo (props) {
   return (
     <div id="company-info">
@@ -10,3 +12,5 @@ function CompanyInfo (props) {
     </div>
   )
 }
+
+export default CompanyInfo;

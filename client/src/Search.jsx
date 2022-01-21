@@ -1,5 +1,5 @@
 // search feature to bring up a stock's information
-import Button from '@mui/material/Button';
+import React from 'react';
 
 function Search (props) {
   return (
@@ -8,8 +8,10 @@ function Search (props) {
         <label htmlFor="search">Search:</label>
         <br/>
         <input onChange={props.updateCurrentStock} name="search" type="text"/>
-        <Button onClick={props.retrieveStockInformation} />
+        <input onClick={props.retrieveStockInformation} type="submit"/>
       </form>
     </div>
   )
 }
+
+export default Search;
