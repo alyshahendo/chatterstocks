@@ -1,4 +1,6 @@
 // search feature to bring up a stock's information
+import Button from '@mui/material/Button';
+
 function Search(props) {
   return React.createElement(
     "div",
@@ -13,7 +15,7 @@ function Search(props) {
       ),
       React.createElement("br", null),
       React.createElement("input", { onChange: props.updateCurrentStock, name: "search", type: "text" }),
-      React.createElement("input", { onClick: props.retrieveStockInformation, type: "submit" })
+      React.createElement(Button, { onClick: props.retrieveStockInformation })
     )
   );
 }
