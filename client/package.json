@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@babel/preset-react": "^7.16.7",
+    "html-webpack-plugin": "^5.5.0"
+  },
+  "dependencies": {
+    "babel-loader": "^8.2.3"
+  }
+}
