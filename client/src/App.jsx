@@ -8,17 +8,19 @@ class App extends React.Component {
     this.state = {
       username: 'user',
       stock: 'TSLA',
-      stockPrice: 0
+      stockPrice: 0,
+      stockInfo: {}
     }
     this.askForUsername = this.askForUsername.bind(this);
     this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
     this.updateCurrentStock = this.updateCurrentStock.bind(this);
     this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
     this.updateStockPrice = this.updateStockPrice.bind(this);
+    this.updateStockInfo = this.updateStockInfo.bind(this);
   }
 
   componentDidMount () {
-    // this.askForUsername();
+    this.retrieveStockInformation();
   }
 
   askForUsername () {
@@ -29,10 +31,11 @@ class App extends React.Component {
   }
 
   updateCurrentStock () {
+    var ticker = event.target.value.toUpperCase();
+    console.log(ticker)
     this.setState({
-      stock: event.target.value
+      stock: ticker
     });
-    console.log(this.state.stock);
   }
 
   updateStockPrice (price) {
@@ -41,8 +44,17 @@ class App extends React.Component {
     })
   }
 
+  updateStockInfo (stockInfo) {
+    this.setState ({
+      stockInfo: stockInfo
+    })
+  }
+
   retrieveStockInformation (e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
+
     var stockData = {
       stock: this.state.stock
     };
@@ -52,9 +64,10 @@ class App extends React.Component {
       data: stockData,
       method: 'GET',
       contentType: 'application/json',
-      success: (price) => {
-        this.updateStockPrice(price)
-        console.log('Stock price updated ', price);
+      success: (stockData) => {
+        console.log('here is the company information:', stockData)
+        this.updateStockPrice(stockData.currentPrice);
+        this.updateStockInfo(stockData.info.results);
       },
       error: (err) => {
         console.log('This is the error: ', err);
@@ -68,7 +81,7 @@ class App extends React.Component {
         <h1>App Name</h1>
         <Search updateCurrentStock={this.updateCurrentStock} retrieveStockInformation={this.retrieveStockInformation}/>
         <br/>
-        <CompanyInfo stock={this.state.stock} stockPrice={this.state.stockPrice} />
+        <CompanyInfo stockInfo={this.state.stockInfo} stockPrice={this.state.stockPrice} />
         <br/>
         <CommentView stock={this.state.stock}/>
       </div>

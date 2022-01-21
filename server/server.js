@@ -24,11 +24,13 @@ app.get('/comment', (req, res) => {
 app.get('/stock', (req, res) => {
   var ticker = req.query.stock.toUpperCase();
   var currentDate = new Date (Date.now());
-
+  var stockData = {};
   getCurrentPrice(res, ticker, currentDate, (err, currentPrice, ticker) => {
     if (err === null) {
-      getCompanyInformation(ticker, (err, stockData) => {
+      stockData.currentPrice = currentPrice;
+      getCompanyInformation(ticker, (err, info) => {
         if (err === null) {
+          stockData.info = info;
           res.send(200, stockData);
         } else {
           throw err;
@@ -36,6 +38,7 @@ app.get('/stock', (req, res) => {
       });
     } else {
       throw err;
+      res.end();
     }
   });
 
@@ -43,7 +46,7 @@ app.get('/stock', (req, res) => {
 
 var getCompanyInformation = (ticker, callback) => {
   var url = `https://api.polygon.io/v3/reference/tickers/${ticker}`;
-
+  console.log('this is the ticker', ticker);
   $.ajax({
     url: url,
     method: 'GET',
@@ -64,8 +67,9 @@ var getCompanyInformation = (ticker, callback) => {
 
 var getCurrentPrice = (res, ticker, currentDate, callback) => {
   var currentDateJSON = currentDate.toJSON().substring(0, 10);
-  var previousDateJSON = currentDate.toJSON().substring(0, 8) + previousDate;
   var previousDate = currentDate.getDate() - 1;
+  var previousDateJSON = currentDate.toJSON().substring(0, 8) + previousDate;
+
   var url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${previousDateJSON}/${currentDateJSON}?sort=asc&limit=120`;
 
   $.ajax({
@@ -76,9 +80,10 @@ var getCurrentPrice = (res, ticker, currentDate, callback) => {
       xhr.setRequestHeader('Authorization', API_key);
     },
     success: (stockData) => {
+      console.log(stockData)
       var currentPrice = stockData.results[0].vw;
       console.log(currentPrice);
-      callback(null, currentPrice)
+      callback(null, currentPrice, ticker)
     },
     error: (err) => {
       console.log('This is the error: ', err);

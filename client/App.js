@@ -23,20 +23,22 @@ var App = function (_React$Component) {
     _this.state = {
       username: 'user',
       stock: 'TSLA',
-      stockPrice: 0
+      stockPrice: 0,
+      stockInfo: {}
     };
     _this.askForUsername = _this.askForUsername.bind(_this);
     _this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
     _this.updateCurrentStock = _this.updateCurrentStock.bind(_this);
     _this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
     _this.updateStockPrice = _this.updateStockPrice.bind(_this);
+    _this.updateStockInfo = _this.updateStockInfo.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      // this.askForUsername();
+      this.retrieveStockInformation();
     }
   }, {
     key: 'askForUsername',
@@ -49,10 +51,11 @@ var App = function (_React$Component) {
   }, {
     key: 'updateCurrentStock',
     value: function updateCurrentStock() {
+      var ticker = event.target.value.toUpperCase();
+      console.log(ticker);
       this.setState({
-        stock: event.target.value
+        stock: ticker
       });
-      console.log(this.state.stock);
     }
   }, {
     key: 'updateStockPrice',
@@ -62,11 +65,21 @@ var App = function (_React$Component) {
       });
     }
   }, {
+    key: 'updateStockInfo',
+    value: function updateStockInfo(stockInfo) {
+      this.setState({
+        stockInfo: stockInfo
+      });
+    }
+  }, {
     key: 'retrieveStockInformation',
     value: function retrieveStockInformation(e) {
       var _this2 = this;
 
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
+
       var stockData = {
         stock: this.state.stock
       };
@@ -76,9 +89,10 @@ var App = function (_React$Component) {
         data: stockData,
         method: 'GET',
         contentType: 'application/json',
-        success: function success(price) {
-          _this2.updateStockPrice(price);
-          console.log('Stock price updated ', price);
+        success: function success(stockData) {
+          console.log('here is the company information:', stockData);
+          _this2.updateStockPrice(stockData.currentPrice);
+          _this2.updateStockInfo(stockData.info.results);
         },
         error: function error(err) {
           console.log('This is the error: ', err);
@@ -98,7 +112,7 @@ var App = function (_React$Component) {
         ),
         React.createElement(Search, { updateCurrentStock: this.updateCurrentStock, retrieveStockInformation: this.retrieveStockInformation }),
         React.createElement('br', null),
-        React.createElement(CompanyInfo, { stock: this.state.stock, stockPrice: this.state.stockPrice }),
+        React.createElement(CompanyInfo, { stockInfo: this.state.stockInfo, stockPrice: this.state.stockPrice }),
         React.createElement('br', null),
         React.createElement(CommentView, { stock: this.state.stock })
       );

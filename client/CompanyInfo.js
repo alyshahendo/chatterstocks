@@ -3,11 +3,25 @@ function CompanyInfo(props) {
   return React.createElement(
     "div",
     { id: "company-info" },
-    React.createElement("div", { id: "company-name" }),
+    React.createElement(
+      "div",
+      { id: "company-name" },
+      props.stockInfo.name
+    ),
     React.createElement(
       "div",
       { id: "company-ticker" },
-      props.stock
+      props.stockInfo.ticker
+    ),
+    React.createElement(
+      "div",
+      { id: "company-url" },
+      props.stockInfo.homepage_url
+    ),
+    React.createElement(
+      "div",
+      { id: "company-description" },
+      props.stockInfo.description
     ),
     React.createElement(
       "div",
