@@ -68,6 +68,8 @@ class App extends React.Component {
         <h1>App Name</h1>
         <Search updateCurrentStock={this.updateCurrentStock} retrieveStockInformation={this.retrieveStockInformation}/>
         <br/>
+        <CompanyInfo stock={this.state.stock} stockPrice={this.state.stockPrice} />
+        <br/>
         <CommentView stock={this.state.stock}/>
       </div>
     )

@@ -98,6 +98,8 @@ var App = function (_React$Component) {
         ),
         React.createElement(Search, { updateCurrentStock: this.updateCurrentStock, retrieveStockInformation: this.retrieveStockInformation }),
         React.createElement('br', null),
+        React.createElement(CompanyInfo, { stock: this.state.stock, stockPrice: this.state.stockPrice }),
+        React.createElement('br', null),
         React.createElement(CommentView, { stock: this.state.stock })
       );
     }
