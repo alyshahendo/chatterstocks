@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 
 app.get('/comment', (req, res) => {
   var stock = req.query
+  console.log('this is the stock', req)
   return db.find(stock).sort({ created_at: 'desc' })
   .then((comments) => {
     res.send(comments);
@@ -55,7 +56,6 @@ var getCompanyInformation = (ticker, callback) => {
       xhr.setRequestHeader('Authorization', API_key);
     },
     success: (stockData) => {
-      console.log(stockData);
       callback(null, stockData);
     },
     error: (err) => {

@@ -9,7 +9,9 @@ class App extends React.Component {
       username: 'user',
       stock: 'TSLA',
       stockPrice: 0,
-      stockInfo: {}
+      stockInfo: {},
+      comments: [],
+      currentCommentValue: ''
     }
     this.askForUsername = this.askForUsername.bind(this);
     this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
@@ -17,10 +19,80 @@ class App extends React.Component {
     this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
     this.updateStockPrice = this.updateStockPrice.bind(this);
     this.updateStockInfo = this.updateStockInfo.bind(this);
+
+    this.updateCurrentCommentValue = this.updateCurrentCommentValue.bind(this);
+    this.saveComment = this.saveComment.bind(this);
+    this.addNewComment = this.addNewComment.bind(this);
+    this.retrieveComments = this.retrieveComments.bind(this);
+    this.updateAllComments = this.updateAllComments.bind(this);
   }
 
   componentDidMount () {
     this.retrieveStockInformation();
+    this.retrieveComments();
+  }
+
+  updateCurrentCommentValue (e) {
+    this.setState({
+      currentCommentValue: event.target.value
+    });
+  }
+
+  addNewComment (comment) {
+    var updatedComments = this.state.comments;
+    updatedComments.unshift(comment);
+    this.setState({
+      comments: updatedComments
+    });
+  }
+
+  updateAllComments (comments) {
+    this.setState({
+      comments: comments
+    });
+  }
+
+  saveComment (e) {
+    e.preventDefault();
+    var currentComment = {
+      username: this.state.username,
+      text: this.state.currentCommentValue,
+      stock: this.state.stock
+    };
+
+    $.ajax({
+      url: 'http://127.0.0.1:3000/comment',
+      data: JSON.stringify(currentComment),
+      method: 'POST',
+      contentType: 'application/json',
+      success: (comment) => {
+        this.addNewComment(comment);
+        console.log('Comment saved!');
+      },
+      error: (err) => {
+        console.log('This is the error: ', err);
+      }
+    });
+  }
+
+  retrieveComments () {
+    var stockData = {
+      stock: this.state.stock
+    };
+    console.log('is ths riht?', stockData)
+    $.ajax({
+      url: 'http://127.0.0.1:3000/comment',
+      data: stockData,
+      method: 'GET',
+      contentType: 'application/json',
+      success: (comments) => {
+        this.updateAllComments(comments);
+        console.log('Comments updated: ', comments);
+      },
+      error: (err) => {
+        console.log('This is the error: ', err);
+      }
+    });
   }
 
   askForUsername () {
@@ -68,6 +140,7 @@ class App extends React.Component {
         console.log('here is the company information:', stockData)
         this.updateStockPrice(stockData.currentPrice);
         this.updateStockInfo(stockData.info.results);
+        this.retrieveComments();
       },
       error: (err) => {
         console.log('This is the error: ', err);
@@ -83,7 +156,7 @@ class App extends React.Component {
         <br/>
         <CompanyInfo stockInfo={this.state.stockInfo} stockPrice={this.state.stockPrice} />
         <br/>
-        <CommentView stock={this.state.stock}/>
+        <CommentView comments={this.state.comments} stock={this.state.stock}/>
       </div>
     )
   }

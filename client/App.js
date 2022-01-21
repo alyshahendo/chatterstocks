@@ -24,7 +24,9 @@ var App = function (_React$Component) {
       username: 'user',
       stock: 'TSLA',
       stockPrice: 0,
-      stockInfo: {}
+      stockInfo: {},
+      comments: [],
+      currentCommentValue: ''
     };
     _this.askForUsername = _this.askForUsername.bind(_this);
     _this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
@@ -32,6 +34,12 @@ var App = function (_React$Component) {
     _this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
     _this.updateStockPrice = _this.updateStockPrice.bind(_this);
     _this.updateStockInfo = _this.updateStockInfo.bind(_this);
+
+    _this.updateCurrentCommentValue = _this.updateCurrentCommentValue.bind(_this);
+    _this.saveComment = _this.saveComment.bind(_this);
+    _this.addNewComment = _this.addNewComment.bind(_this);
+    _this.retrieveComments = _this.retrieveComments.bind(_this);
+    _this.updateAllComments = _this.updateAllComments.bind(_this);
     return _this;
   }
 
@@ -39,6 +47,79 @@ var App = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.retrieveStockInformation();
+      this.retrieveComments();
+    }
+  }, {
+    key: 'updateCurrentCommentValue',
+    value: function updateCurrentCommentValue(e) {
+      this.setState({
+        currentCommentValue: event.target.value
+      });
+    }
+  }, {
+    key: 'addNewComment',
+    value: function addNewComment(comment) {
+      var updatedComments = this.state.comments;
+      updatedComments.unshift(comment);
+      this.setState({
+        comments: updatedComments
+      });
+    }
+  }, {
+    key: 'updateAllComments',
+    value: function updateAllComments(comments) {
+      this.setState({
+        comments: comments
+      });
+    }
+  }, {
+    key: 'saveComment',
+    value: function saveComment(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      var currentComment = {
+        username: this.state.username,
+        text: this.state.currentCommentValue,
+        stock: this.state.stock
+      };
+
+      $.ajax({
+        url: 'http://127.0.0.1:3000/comment',
+        data: JSON.stringify(currentComment),
+        method: 'POST',
+        contentType: 'application/json',
+        success: function success(comment) {
+          _this2.addNewComment(comment);
+          console.log('Comment saved!');
+        },
+        error: function error(err) {
+          console.log('This is the error: ', err);
+        }
+      });
+    }
+  }, {
+    key: 'retrieveComments',
+    value: function retrieveComments() {
+      var _this3 = this;
+
+      var stockData = {
+        stock: this.state.stock
+      };
+      console.log('is ths riht?', stockData);
+      $.ajax({
+        url: 'http://127.0.0.1:3000/comment',
+        data: stockData,
+        method: 'GET',
+        contentType: 'application/json',
+        success: function success(comments) {
+          _this3.updateAllComments(comments);
+          console.log('Comments updated: ', comments);
+        },
+        error: function error(err) {
+          console.log('This is the error: ', err);
+        }
+      });
     }
   }, {
     key: 'askForUsername',
@@ -74,7 +155,7 @@ var App = function (_React$Component) {
   }, {
     key: 'retrieveStockInformation',
     value: function retrieveStockInformation(e) {
-      var _this2 = this;
+      var _this4 = this;
 
       if (e) {
         e.preventDefault();
@@ -91,8 +172,9 @@ var App = function (_React$Component) {
         contentType: 'application/json',
         success: function success(stockData) {
           console.log('here is the company information:', stockData);
-          _this2.updateStockPrice(stockData.currentPrice);
-          _this2.updateStockInfo(stockData.info.results);
+          _this4.updateStockPrice(stockData.currentPrice);
+          _this4.updateStockInfo(stockData.info.results);
+          _this4.retrieveComments();
         },
         error: function error(err) {
           console.log('This is the error: ', err);
@@ -114,7 +196,7 @@ var App = function (_React$Component) {
         React.createElement('br', null),
         React.createElement(CompanyInfo, { stockInfo: this.state.stockInfo, stockPrice: this.state.stockPrice }),
         React.createElement('br', null),
-        React.createElement(CommentView, { stock: this.state.stock })
+        React.createElement(CommentView, { comments: this.state.comments, stock: this.state.stock })
       );
     }
   }]);
