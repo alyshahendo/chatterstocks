@@ -12,16 +12,15 @@ class App extends React.Component {
       username: 'user',
       stock: 'TSLA',
       stockPrice: 0,
-      stockInfo: {},
+      stockInfo: null,
       comments: [],
       currentCommentValue: ''
     }
     // this.askForUsername = this.askForUsername.bind(this);
-    // this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
     // this.updateCurrentStock = this.updateCurrentStock.bind(this);
-    // this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
-    // this.updateStockPrice = this.updateStockPrice.bind(this);
-    // this.updateStockInfo = this.updateStockInfo.bind(this);
+    this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
+    this.updateStockPrice = this.updateStockPrice.bind(this);
+    this.updateStockInfo = this.updateStockInfo.bind(this);
 
     // this.updateCurrentCommentValue = this.updateCurrentCommentValue.bind(this);
     // this.saveComment = this.saveComment.bind(this);
@@ -31,19 +30,24 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    this.serverRequest = this.retrieveComments((err, comments) => {
-      if (err == null) {
-        this.updateAllComments(comments);
-      } else {
-        if (err.statusText !== 'abort') {
-          console.log('Error loading comments: ', err);
+    if (this.state.stockInfo === null) {
+      this.serverRequest = this.retrieveStockInformation(null, (err, comments) => {
+        if (err === null) {
+          console.log('im here');
+          this.updateAllComments(comments);
+        } else {
+          if (err.statusText !== 'abort') {
+            console.log('Error loading comments and stock info: ', err);
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   componentWillUnmount () {
+    if (this.serverRequest) {
       this.serverRequest.abort();
+    }
   }
 
     updateAllComments (comments) {
@@ -63,10 +67,8 @@ class App extends React.Component {
         method: 'GET',
         contentType: 'application/json',
         success: (comments) => {
-          // if (_isMounted.current) {
             console.log('Comments updated: ', comments);
             callback(null, comments);
-          // }
         },
         error: (err) => {
           if (err.statusText !== 'abort') {
@@ -131,43 +133,50 @@ class App extends React.Component {
   //   });
   // }
 
-  // updateStockPrice (price) {
-  //   this.setState ({
-  //     stockPrice: price
-  //   })
-  // }
+  updateStockPrice (price) {
+    this.setState ({
+      stockPrice: price
+    })
+  }
 
-  // updateStockInfo (stockInfo) {
-  //   this.setState ({
-  //     stockInfo: stockInfo
-  //   })
-  // }
+  updateStockInfo (stockInfo) {
+    this.setState ({
+      stockInfo: stockInfo
+    })
+  }
 
-  // retrieveStockInformation (e) {
-  //   if (e) {
-  //     e.preventDefault();
-  //   }
+  retrieveStockInformation (e, callback) {
+    if (e) {
+      e.preventDefault();
+    }
 
-  //   var stockData = {
-  //     stock: this.state.stock
-  //   };
+    var stockData = {
+      stock: this.state.stock
+    };
 
-  //   return $.ajax({
-  //     url: 'http://127.0.0.1:3000/stock',
-  //     data: stockData,
-  //     method: 'GET',
-  //     contentType: 'application/json',
-  //     success: (stockData) => {
-  //       console.log('here is the company information:', stockData)
-  //       this.updateStockPrice(stockData.currentPrice);
-  //       this.updateStockInfo(stockData.info.results);
-  //       this.retrieveComments();
-  //     },
-  //     error: (err) => {
-  //       console.log('This is the error: ', err);
-  //     }
-  //   });
-  // }
+    return $.ajax({
+      url: 'http://127.0.0.1:3000/stock',
+      data: stockData,
+      method: 'GET',
+      contentType: 'application/json',
+      success: (stockData) => {
+        this.serverRequest = this.retrieveComments((err, comments) => {
+          if (err) {
+            callback(err);
+          }
+            console.log('here is the company information:', stockData)
+            this.updateStockPrice(stockData.currentPrice);
+            this.updateStockInfo(stockData.info.results);
+            callback(null, comments);
+        });
+      },
+      error: (err) => {
+        if (err.statusText !== 'abort') {
+          console.log('Error loading stock info: ', err);
+        }
+      }
+    });
+  }
 
   render() {
     return (
@@ -175,7 +184,7 @@ class App extends React.Component {
         <h1>App Name</h1>
         {/* <Search updateCurrentStock={this.updateCurrentStock} retrieveStockInformation={this.retrieveStockInformation}/> */}
         <br/>
-        {/* <CompanyInfo stockInfo={this.state.stockInfo} stockPrice={this.state.stockPrice} /> */}
+        <CompanyInfo stockInfo={this.state.stockInfo} stockPrice={this.state.stockPrice} />
         <br/>
         <CommentView comments={this.state.comments} stock={this.state.stock}/>
       </div>

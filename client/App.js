@@ -25,20 +25,19 @@ var App = function (_React$Component) {
       username: 'user',
       stock: 'TSLA',
       stockPrice: 0,
-      stockInfo: {},
+      stockInfo: null,
       comments: [],
       currentCommentValue: ''
       // this.askForUsername = this.askForUsername.bind(this);
-      // this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
       // this.updateCurrentStock = this.updateCurrentStock.bind(this);
-      // this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
-      // this.updateStockPrice = this.updateStockPrice.bind(this);
-      // this.updateStockInfo = this.updateStockInfo.bind(this);
+    };_this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
+    _this.updateStockPrice = _this.updateStockPrice.bind(_this);
+    _this.updateStockInfo = _this.updateStockInfo.bind(_this);
 
-      // this.updateCurrentCommentValue = this.updateCurrentCommentValue.bind(this);
-      // this.saveComment = this.saveComment.bind(this);
-      // this.addNewComment = this.addNewComment.bind(this);
-    };_this.retrieveComments = _this.retrieveComments.bind(_this);
+    // this.updateCurrentCommentValue = this.updateCurrentCommentValue.bind(this);
+    // this.saveComment = this.saveComment.bind(this);
+    // this.addNewComment = this.addNewComment.bind(this);
+    _this.retrieveComments = _this.retrieveComments.bind(_this);
     _this.updateAllComments = _this.updateAllComments.bind(_this);
     return _this;
   }
@@ -48,20 +47,25 @@ var App = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      this.serverRequest = this.retrieveComments(function (err, comments) {
-        if (err == null) {
-          _this2.updateAllComments(comments);
-        } else {
-          if (err.statusText !== 'abort') {
-            console.log('Error loading comments: ', err);
+      if (this.state.stockInfo === null) {
+        this.serverRequest = this.retrieveStockInformation(null, function (err, comments) {
+          if (err === null) {
+            console.log('im here');
+            _this2.updateAllComments(comments);
+          } else {
+            if (err.statusText !== 'abort') {
+              console.log('Error loading comments and stock info: ', err);
+            }
           }
-        }
-      });
+        });
+      }
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this.serverRequest.abort();
+      if (this.serverRequest) {
+        this.serverRequest.abort();
+      }
     }
   }, {
     key: 'updateAllComments',
@@ -83,10 +87,8 @@ var App = function (_React$Component) {
         method: 'GET',
         contentType: 'application/json',
         success: function success(comments) {
-          // if (_isMounted.current) {
           console.log('Comments updated: ', comments);
           callback(null, comments);
-          // }
         },
         error: function error(err) {
           if (err.statusText !== 'abort') {
@@ -151,44 +153,56 @@ var App = function (_React$Component) {
     //   });
     // }
 
-    // updateStockPrice (price) {
-    //   this.setState ({
-    //     stockPrice: price
-    //   })
-    // }
+  }, {
+    key: 'updateStockPrice',
+    value: function updateStockPrice(price) {
+      this.setState({
+        stockPrice: price
+      });
+    }
+  }, {
+    key: 'updateStockInfo',
+    value: function updateStockInfo(stockInfo) {
+      this.setState({
+        stockInfo: stockInfo
+      });
+    }
+  }, {
+    key: 'retrieveStockInformation',
+    value: function retrieveStockInformation(e, callback) {
+      var _this3 = this;
 
-    // updateStockInfo (stockInfo) {
-    //   this.setState ({
-    //     stockInfo: stockInfo
-    //   })
-    // }
+      if (e) {
+        e.preventDefault();
+      }
 
-    // retrieveStockInformation (e) {
-    //   if (e) {
-    //     e.preventDefault();
-    //   }
+      var stockData = {
+        stock: this.state.stock
+      };
 
-    //   var stockData = {
-    //     stock: this.state.stock
-    //   };
-
-    //   return $.ajax({
-    //     url: 'http://127.0.0.1:3000/stock',
-    //     data: stockData,
-    //     method: 'GET',
-    //     contentType: 'application/json',
-    //     success: (stockData) => {
-    //       console.log('here is the company information:', stockData)
-    //       this.updateStockPrice(stockData.currentPrice);
-    //       this.updateStockInfo(stockData.info.results);
-    //       this.retrieveComments();
-    //     },
-    //     error: (err) => {
-    //       console.log('This is the error: ', err);
-    //     }
-    //   });
-    // }
-
+      return $.ajax({
+        url: 'http://127.0.0.1:3000/stock',
+        data: stockData,
+        method: 'GET',
+        contentType: 'application/json',
+        success: function success(stockData) {
+          _this3.serverRequest = _this3.retrieveComments(function (err, comments) {
+            if (err) {
+              callback(err);
+            }
+            console.log('here is the company information:', stockData);
+            _this3.updateStockPrice(stockData.currentPrice);
+            _this3.updateStockInfo(stockData.info.results);
+            callback(null, comments);
+          });
+        },
+        error: function error(err) {
+          if (err.statusText !== 'abort') {
+            console.log('Error loading stock info: ', err);
+          }
+        }
+      });
+    }
   }, {
     key: 'render',
     value: function render() {
@@ -201,6 +215,7 @@ var App = function (_React$Component) {
           'App Name'
         ),
         React.createElement('br', null),
+        React.createElement(CompanyInfo, { stockInfo: this.state.stockInfo, stockPrice: this.state.stockPrice }),
         React.createElement('br', null),
         React.createElement(CommentView, { comments: this.state.comments, stock: this.state.stock })
       );
