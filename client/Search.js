@@ -1,21 +1,30 @@
 // search feature to bring up a stock's information
 import React from 'react';
+import Input from '@mui/material/Input';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import { spacing } from '@mui/system';
 
 function Search(props) {
   return React.createElement(
-    "div",
-    { id: "search" },
+    'div',
+    { id: 'search' },
     React.createElement(
-      "form",
+      'form',
       null,
       React.createElement(
-        "label",
-        { htmlFor: "search" },
-        "Search:"
-      ),
-      React.createElement("br", null),
-      React.createElement("input", { onChange: props.updateSearch, name: "search", type: "text" }),
-      React.createElement("input", { onClick: props.retrieveStockInformation, type: "submit" })
+        FormControl,
+        { sx: {
+            borderColor: 'primary.main',
+            boxShadow: 1,
+            borderRadius: 2,
+            minWidth: 200,
+            mx: "auto",
+            width: 200
+          } },
+        React.createElement(TextField, { id: 'stock-search', label: 'Enter stock ticker', variant: 'outlined', onChange: props.updateSearch }),
+        React.createElement(Input, { onClick: props.retrieveStockInformation, type: 'submit' })
+      )
     )
   );
 }

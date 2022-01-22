@@ -5,6 +5,9 @@ import Search from './Search';
 import CompanyInfo from './CompanyInfo';
 import CommentView from './CommentView';
 import AddComment from './AddComment';
+import Typography from '@material-ui/core/Typography';
+import { spacing } from '@mui/system';
+import Box from '@mui/material/Box';
 
 class App extends React.Component {
   constructor(props) {
@@ -147,7 +150,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>App Name</h1>
+        <Typography variant='h2' align='center' >App Name</Typography>
         <Search updateSearch={this.updateSearch} retrieveStockInformation={this.retrieveStockInformation}/>
         <CompanyInfo stockInfo={this.state.stockInfo} stockPrice={this.state.stockPrice} />
         <br/>

@@ -13,6 +13,9 @@ import Search from './Search';
 import CompanyInfo from './CompanyInfo';
 import CommentView from './CommentView';
 import AddComment from './AddComment';
+import Typography from '@material-ui/core/Typography';
+import { spacing } from '@mui/system';
+import Box from '@mui/material/Box';
 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
@@ -179,8 +182,8 @@ var App = function (_React$Component) {
         'div',
         null,
         React.createElement(
-          'h1',
-          null,
+          Typography,
+          { variant: 'h2', align: 'center' },
           'App Name'
         ),
         React.createElement(Search, { updateSearch: this.updateSearch, retrieveStockInformation: this.retrieveStockInformation }),
