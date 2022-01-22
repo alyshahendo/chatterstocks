@@ -1,16 +1,21 @@
 // main app component
 import React from 'react';
-import Search from './Search';
 import $ from 'jquery';
+import Search from './Search';
+import CompanyInfo from './CompanyInfo';
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      search: ''
+      search: '',
+      stockPrice: 0,
+      stockInfo: {}
     }
     this.updateSearch = this.updateSearch.bind(this);
-    this.searchTwitter = this.searchTwitter.bind(this);
+    this.retrieveStockInformation = this.retrieveStockInformation.bind(this);
+    this.updateStockPrice = this.updateStockPrice.bind(this);
+    this.updateStockInfo = this.updateStockInfo.bind(this);
   }
 
   updateSearch (event) {
@@ -19,21 +24,36 @@ class App extends React.Component {
       });
   }
 
-  searchTwitter (event) {
+  updateStockPrice (price) {
+    this.setState ({
+      stockPrice: price
+    })
+  }
+
+  updateStockInfo (stockInfo) {
+    this.setState ({
+      stockInfo: stockInfo
+    })
+  }
+
+  retrieveStockInformation (event) {
     event.preventDefault();
-    var query = {
-      value: this.state.search
-    }
-    $.ajax({
-      url: 'http://127.0.0.1:3000/search',
-      data: query,
+
+    var stockData = {
+      stock: this.state.search
+    };
+
+    return $.ajax({
+      url: 'http://127.0.0.1:3000/stock',
+      data: stockData,
       method: 'GET',
       contentType: 'application/json',
-      success: (tweets) => {
-        console.log('Tweets retrieved: ', tweets);
+      success: (stockData) => {
+        this.updateStockPrice(stockData.currentPrice);
+        this.updateStockInfo(stockData.info.results);
       },
       error: (err) => {
-        console.log('Error retrieving tweets: ', err);
+        console.log('Error loading stock info: ', err);
       }
     });
   }
@@ -42,7 +62,8 @@ class App extends React.Component {
     return (
       <div>
         <h1>App Name</h1>
-        <Search updateSearch={this.updateSearch} searchTwitter={this.searchTwitter}/>
+        <Search updateSearch={this.updateSearch} retrieveStockInformation={this.retrieveStockInformation}/>
+        <CompanyInfo stockInfo={this.state.stockInfo} stockPrice={this.state.stockPrice} />
       </div>
     )
   }

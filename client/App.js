@@ -8,8 +8,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // main app component
 import React from 'react';
-import Search from './Search';
 import $ from 'jquery';
+import Search from './Search';
+import CompanyInfo from './CompanyInfo';
 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
@@ -20,10 +21,14 @@ var App = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.state = {
-      search: ''
+      search: '',
+      stockPrice: 0,
+      stockInfo: {}
     };
     _this.updateSearch = _this.updateSearch.bind(_this);
-    _this.searchTwitter = _this.searchTwitter.bind(_this);
+    _this.retrieveStockInformation = _this.retrieveStockInformation.bind(_this);
+    _this.updateStockPrice = _this.updateStockPrice.bind(_this);
+    _this.updateStockInfo = _this.updateStockInfo.bind(_this);
     return _this;
   }
 
@@ -35,22 +40,41 @@ var App = function (_React$Component) {
       });
     }
   }, {
-    key: 'searchTwitter',
-    value: function searchTwitter(event) {
+    key: 'updateStockPrice',
+    value: function updateStockPrice(price) {
+      this.setState({
+        stockPrice: price
+      });
+    }
+  }, {
+    key: 'updateStockInfo',
+    value: function updateStockInfo(stockInfo) {
+      this.setState({
+        stockInfo: stockInfo
+      });
+    }
+  }, {
+    key: 'retrieveStockInformation',
+    value: function retrieveStockInformation(event) {
+      var _this2 = this;
+
       event.preventDefault();
-      var query = {
-        value: this.state.search
+
+      var stockData = {
+        stock: this.state.search
       };
-      $.ajax({
-        url: 'http://127.0.0.1:3000/search',
-        data: query,
+
+      return $.ajax({
+        url: 'http://127.0.0.1:3000/stock',
+        data: stockData,
         method: 'GET',
         contentType: 'application/json',
-        success: function success(tweets) {
-          console.log('Tweets retrieved: ', tweets);
+        success: function success(stockData) {
+          _this2.updateStockPrice(stockData.currentPrice);
+          _this2.updateStockInfo(stockData.info.results);
         },
         error: function error(err) {
-          console.log('Error retrieving tweets: ', err);
+          console.log('Error loading stock info: ', err);
         }
       });
     }
@@ -65,7 +89,8 @@ var App = function (_React$Component) {
           null,
           'App Name'
         ),
-        React.createElement(Search, { updateSearch: this.updateSearch, searchTwitter: this.searchTwitter })
+        React.createElement(Search, { updateSearch: this.updateSearch, retrieveStockInformation: this.retrieveStockInformation }),
+        React.createElement(CompanyInfo, { stockInfo: this.state.stockInfo, stockPrice: this.state.stockPrice })
       );
     }
   }]);

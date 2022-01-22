@@ -7,8 +7,8 @@ function Search (props) {
       <form>
         <label htmlFor="search">Search:</label>
         <br/>
-        <input onChange={ (e) => {props.updateSearch(e)} } name="search" type="text"/>
-        <input onClick={ (e) => {props.searchTwitter(e)} } type="submit"/>
+        <input onChange={props.updateSearch} name="search" type="text"/>
+        <input onClick={props.retrieveStockInformation} type="submit"/>
       </form>
     </div>
   )
