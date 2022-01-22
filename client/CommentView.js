@@ -20,45 +20,6 @@ var CommentView = function (_React$Component) {
     return _possibleConstructorReturn(this, (CommentView.__proto__ || Object.getPrototypeOf(CommentView)).call(this, props));
   }
 
-  // componentDidMount () {
-  //   this.retrieveComments((err, comments) => {
-  //     if (err == null) {
-  //       // this.updateAllComments(comments);
-  //     } else {
-  //       throw err;
-  //     }
-  //   });
-  // }
-
-  // updateAllComments (comments) {
-  //   this.setState({
-  //     comments: comments
-  //   });
-  // }
-
-  // retrieveComments (callback) {
-  //   var stockData = {
-  //     stock: this.state.stock
-  //   };
-
-  //   return $.ajax({
-  //     url: 'http://127.0.0.1:3000/comment',
-  //     data: stockData,
-  //     method: 'GET',
-  //     contentType: 'application/json',
-  //     success: (comments) => {
-  //       // if (_isMounted.current) {
-  //         console.log('Comments updated: ', comments);
-  //         callback(null, comments);
-  //       // }
-  //     },
-  //     error: (err) => {
-  //       console.log('This is the error: ', err);
-  //       callback(err);
-  //     }
-  //   });
-  // }
-
   _createClass(CommentView, [{
     key: 'render',
     value: function render() {
