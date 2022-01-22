@@ -1,20 +1,32 @@
 import React from 'react';
+import Input from '@mui/material/Input';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import { spacing } from '@mui/system';
+import Box from '@mui/material/Box';
+import { flexbox } from '@mui/system';
+import Button from '@mui/material/Button';
 
 function AddComment(props) {
   return React.createElement(
-    "div",
-    { id: "add-comment" },
+    'div',
+    { id: 'add-comment' },
     React.createElement(
-      "form",
-      null,
+      FormControl,
+      { sx: {
+          borderColor: 'primary.main',
+          boxShadow: 1,
+          borderRadius: 2,
+          minWidth: 200,
+          alignContent: 'center',
+          mb: 5
+        } },
+      React.createElement(TextField, { id: 'stock-search', label: 'Whats on your mind?', onChange: props.updateCurrentCommentValue, variant: 'standard', gutterBottom: true, size: 'small' }),
       React.createElement(
-        "label",
-        { htmlFor: "add-comment" },
-        "Add a comment:"
-      ),
-      React.createElement("br", null),
-      React.createElement("input", { onChange: props.updateCurrentCommentValue, type: "text", name: "add-comment" }),
-      React.createElement("input", { onClick: props.saveComment, type: "submit" })
+        Button,
+        { onClick: props.saveComment, type: 'submit', gutterBottom: true, variant: 'outlined' },
+        'Add Comment'
+      )
     )
   );
 }

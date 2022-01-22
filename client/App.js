@@ -16,6 +16,7 @@ import AddComment from './AddComment';
 import Typography from '@material-ui/core/Typography';
 import { spacing } from '@mui/system';
 import Box from '@mui/material/Box';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
@@ -27,7 +28,7 @@ var App = function (_React$Component) {
 
     _this.state = {
       search: '',
-      stockPrice: 0,
+      stockPrice: '',
       stockInfo: {},
       comments: [],
       currentCommentValue: '',
@@ -183,7 +184,7 @@ var App = function (_React$Component) {
         null,
         React.createElement(
           Typography,
-          { variant: 'h2', align: 'center' },
+          { variant: 'h2', align: 'center', sx: { m: 5 } },
           'App Name'
         ),
         React.createElement(Search, { updateSearch: this.updateSearch, retrieveStockInformation: this.retrieveStockInformation }),

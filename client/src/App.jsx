@@ -8,13 +8,14 @@ import AddComment from './AddComment';
 import Typography from '@material-ui/core/Typography';
 import { spacing } from '@mui/system';
 import Box from '@mui/material/Box';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       search: '',
-      stockPrice: 0,
+      stockPrice: '',
       stockInfo: {},
       comments: [],
       currentCommentValue: '',
@@ -150,12 +151,12 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Typography variant='h2' align='center' >App Name</Typography>
-        <Search updateSearch={this.updateSearch} retrieveStockInformation={this.retrieveStockInformation}/>
-        <CompanyInfo stockInfo={this.state.stockInfo} stockPrice={this.state.stockPrice} />
-        <br/>
-        <AddComment updateCurrentCommentValue={this.updateCurrentCommentValue} saveComment={this.saveComment}/>
-        <CommentView comments={this.state.comments} stock={this.state.stock}/>
+          <Typography variant='h2' align='center' sx={{m: 5}} >App Name</Typography>
+          <Search updateSearch={this.updateSearch} retrieveStockInformation={this.retrieveStockInformation}/>
+          <CompanyInfo stockInfo={this.state.stockInfo} stockPrice={this.state.stockPrice} />
+          <br/>
+          <AddComment updateCurrentCommentValue={this.updateCurrentCommentValue} saveComment={this.saveComment}/>
+          <CommentView comments={this.state.comments} stock={this.state.stock}/>
       </div>
     )
   }
