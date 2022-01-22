@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import { spacing } from '@mui/system';
 import Box from '@mui/material/Box';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { purple, red } from '@mui/material/colors';
 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
@@ -184,7 +185,7 @@ var App = function (_React$Component) {
         null,
         React.createElement(
           Typography,
-          { variant: 'h2', align: 'center', sx: { m: 5 } },
+          { variant: 'h2', align: 'center', style: { color: '#2196f3' }, sx: { m: 5 } },
           'App Name'
         ),
         React.createElement(Search, { updateSearch: this.updateSearch, retrieveStockInformation: this.retrieveStockInformation }),
