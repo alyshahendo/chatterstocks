@@ -14,9 +14,11 @@ function AddComment (props) {
           borderColor: 'primary.main',
           boxShadow: 1,
           borderRadius: 2,
-          minWidth: 200,
+          minWidth: 500,
           alignContent: 'center',
-          mb: 5
+          ml: 45,
+          mb: 5,
+          mt: 5
         }} >
           <TextField id='stock-search' label='Whats on your mind?' onChange={props.updateCurrentCommentValue} variant="standard" gutterBottom={true} size='small'/>
           <Button onClick={props.saveComment} type='submit' gutterBottom={true} variant='outlined'>Add Comment</Button>

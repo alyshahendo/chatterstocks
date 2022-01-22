@@ -11,10 +11,19 @@ function Comment (props) {
         boxShadow: 1,
         borderRadius: 2}}>
         <Typography>
-        <div className="username">{props.comment.username}</div>
-        <div className="text">{props.comment.text}</div>
-        <div className="created-at">{props.comment.created_at.substring(0, 10) + ' ' + props.comment.created_at.substring(11, 16)}</div>
-        <br />
+          <table>
+            <tr>
+              <td>
+              <img width='50px' height='50px' src='../avatar-1577909_960_720.png'></img>
+              </td>
+              <td>
+              <div className="username">{props.comment.username}</div>
+              <div className="text">{props.comment.text}</div>
+              <div className="created-at">{props.comment.created_at.substring(0, 10) + ' ' + props.comment.created_at.substring(11, 16)}</div>
+              <br />
+              </td>
+            </tr>
+          </table>
         </Typography>
       </Box>
     </div>

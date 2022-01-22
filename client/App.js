@@ -186,7 +186,7 @@ var App = function (_React$Component) {
         React.createElement(
           Typography,
           { variant: 'h2', align: 'center', style: { color: '#2196f3' }, sx: { m: 5 } },
-          'App Name'
+          'chatterstocks'
         ),
         React.createElement(Search, { updateSearch: this.updateSearch, retrieveStockInformation: this.retrieveStockInformation }),
         React.createElement(CompanyInfo, { stockInfo: this.state.stockInfo, stockPrice: this.state.stockPrice }),

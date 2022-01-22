@@ -152,7 +152,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-          <Typography variant='h2' align='center' style={{color: '#2196f3'}} sx={{m: 5}} >App Name</Typography>
+          <Typography variant='h2' align='center' style={{color: '#2196f3'}} sx={{m: 5}} >chatterstocks</Typography>
           <Search updateSearch={this.updateSearch} retrieveStockInformation={this.retrieveStockInformation}/>
           <CompanyInfo stockInfo={this.state.stockInfo} stockPrice={this.state.stockPrice} />
           <br/>
