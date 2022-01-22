@@ -11,6 +11,17 @@ var app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get('/comment', (req, res) => {
+  var stock = req.query
+  console.log('this is the stock', req)
+  return db.find(stock).sort({ created_at: 'desc' })
+  .then((comments) => {
+    res.send(comments);
+  }).catch((err) =>{
+    console.log('this is the err: ', err);
+  });
+});
+
 app.get('/stock', (req, res) => {
   var ticker = req.query.stock.toUpperCase();
   var currentDate = new Date (Date.now());
@@ -80,6 +91,21 @@ var getCurrentPrice = (res, ticker, currentDate, callback) => {
     }
   });
 }
+
+app.post('/comment', (req, res) => {
+  var comment = {
+    username: req.body.username,
+    text: req.body.text,
+    stock: req.body.stock,
+  };
+  return db.create(comment)
+  .then((comments) => {
+    // db.find({ stock: })
+    res.send(comments);
+  }).catch((err) => {
+    console.log('this is the err: ', err);
+  });
+});
 
 app.listen(3000, () => {
   console.log('Server is connected...');
