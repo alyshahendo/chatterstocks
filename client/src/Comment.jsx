@@ -14,7 +14,7 @@ function Comment (props) {
           <table>
             <tr>
               <td>
-              <img width='50px' height='50px' src='../avatar-1577909_960_720.png'></img>
+              <img width='50px' height='50px' src='../assets/avatar-1577909_960_720.png'></img>
               </td>
               <td>
               <div className="username">{props.comment.username}</div>

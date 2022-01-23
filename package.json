@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/alysharina/hr-rpp33-mvp#readme",
   "devDependencies": {
+    "@babel/preset-react": "^7.16.7",
+    "html-webpack-plugin": "^5.5.0",
     "@babel/core": "^7.16.10",
     "@babel/preset-env": "^7.16.11",
     "body-parser": "^1.19.1",
@@ -37,6 +39,7 @@
     "webpack-dev-server": "^4.7.3"
   },
   "dependencies": {
+    "babel-loader": "^8.2.3",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@fontsource/roboto": "^4.5.1",
