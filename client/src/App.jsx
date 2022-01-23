@@ -5,6 +5,7 @@ import Search from './Search';
 import CompanyInfo from './CompanyInfo';
 import CommentView from './CommentView';
 import AddComment from './AddComment';
+
 import Typography from '@material-ui/core/Typography';
 import { spacing } from '@mui/system';
 import Box from '@mui/material/Box';
@@ -52,52 +53,9 @@ class App extends React.Component {
     })
   }
 
-  retrieveStockInformation (event) {
-    event.preventDefault();
-
-    var stockData = {
-      stock: this.state.search
-    };
-
-    return $.ajax({
-      url: 'http://127.0.0.1:3000/stock',
-      data: stockData,
-      method: 'GET',
-      contentType: 'application/json',
-      success: (stockData) => {
-        this.updateStockPrice(stockData.currentPrice);
-        this.updateStockInfo(stockData.info.results);
-        this.retrieveComments();
-      },
-      error: (err) => {
-        console.log('Error loading stock info: ', err);
-      }
-    });
-  }
-
   updateAllComments (comments) {
     this.setState({
       comments: comments
-    });
-  }
-
-  retrieveComments () {
-    var stockData = {
-      stock: this.state.stockInfo.ticker
-    };
-
-    return $.ajax({
-      url: 'http://127.0.0.1:3000/comment',
-      data: stockData,
-      method: 'GET',
-      contentType: 'application/json',
-      success: (comments) => {
-        this.updateAllComments(comments);
-        console.log('Comments updated: ', comments);
-      },
-      error: (err) => {
-        console.log('Error loading comments: ', err);
-      }
     });
   }
 
@@ -116,6 +74,48 @@ class App extends React.Component {
     });
   }
 
+  retrieveStockInformation (event) {
+    event.preventDefault();
+
+    var stockData = {
+      stock: this.state.search
+    };
+
+    $.ajax({
+      url: 'http://127.0.0.1:3000/stock',
+      data: stockData,
+      method: 'GET',
+      contentType: 'application/json',
+      success: (stockData) => {
+        this.updateStockPrice(stockData.currentPrice);
+        this.updateStockInfo(stockData.info.results);
+        this.retrieveComments();
+      },
+      error: (err) => {
+        console.log('Error loading stock info: ', err);
+      }
+    });
+  }
+
+  retrieveComments () {
+    var stockData = {
+      stock: this.state.stockInfo.ticker
+    };
+
+    $.ajax({
+      url: 'http://127.0.0.1:3000/comment',
+      data: stockData,
+      method: 'GET',
+      contentType: 'application/json',
+      success: (comments) => {
+        this.updateAllComments(comments);
+        console.log('Comments updated: ', comments);
+      },
+      error: (err) => {
+        console.log('Error loading comments: ', err);
+      }
+    });
+  }
 
   saveComment (event) {
     event.preventDefault();
@@ -139,15 +139,6 @@ class App extends React.Component {
       }
     });
   }
-
-
-  // askForUsername () {
-  //   var usernamePrompt = window.prompt('What is your name?');
-  //   this.setState({
-  //     username: usernamePrompt
-  //   })
-  // }
-
 
   render() {
     return (
