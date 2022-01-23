@@ -8,31 +8,30 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/comment', (req, res) => {
+app.get('/comment', (req, res, next) => {
   var stock = req.query;
   return db.find(stock).sort({ created_at: 'desc' })
   .then((comments) => {
-    res.send(200, comments);
+    res.status(200).send(comments);
   }).catch((err) =>{
-    // add error handling
-    console.log('this is the err: ', err);
+    next(err);
   });
 });
 
-app.get('/stock', (req, res) => {
+app.get('/stock', (req, res, next) => {
   const ticker = req.query.stock.toUpperCase();
   const currentDate = new Date (Date.now());
   const currentDay = currentDate.getDay();
 
   // Checking if the current day is Saturday or Sunday
   if (currentDay ===  6 || currentDay === 0) {
-    getStockPriceAndInfo(res, ticker, currentDate, getAfterHoursStockPrice);
+    getStockPriceAndInfo(res, ticker, currentDate, getAfterHoursStockPrice, next);
   } else {
-    getStockPriceAndInfo(res, ticker, currentDate, getCurrentStockPrice);
+    getStockPriceAndInfo(res, ticker, currentDate, getCurrentStockPrice, next);
   }
 });
 
-app.post('/comment', (req, res) => {
+app.post('/comment', (req, res, next) => {
   var comment = {
     username: req.body.username,
     text: req.body.text,
@@ -42,7 +41,7 @@ app.post('/comment', (req, res) => {
   .then((comments) => {
     res.send(comments);
   }).catch((err) => {
-    console.log('this is the err: ', err);
+    next(err);
   });
 });
 

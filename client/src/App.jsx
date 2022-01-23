@@ -92,7 +92,7 @@ class App extends React.Component {
         this.retrieveComments();
       },
       error: (err) => {
-        console.log('Error loading stock info: ', err);
+        alert('Invalid stock ticker, try again.');
       }
     });
   }

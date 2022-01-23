@@ -13,7 +13,7 @@ const fetchData = function (url, success, error) {
       success(stockData);
     },
     error: (err) => {
-      console.log('This is the error: ', err);
+      console.log('This error is from fetching the data: ', err);
       error(err);
     }
   });
@@ -72,7 +72,7 @@ const getAfterHoursStockPrice = (res, ticker, currentDate, callback) => {
   });
 }
 
-const getStockPriceAndInfo = (res, ticker, currentDate, getStockPriceFunction) => {
+const getStockPriceAndInfo = (res, ticker, currentDate, getStockPriceFunction, next) => {
   var stockData = {};
   getStockPriceFunction(res, ticker, currentDate, (err, currentPrice, ticker) => {
     if (err === null) {
@@ -80,14 +80,13 @@ const getStockPriceAndInfo = (res, ticker, currentDate, getStockPriceFunction) =
       getCompanyInformation(ticker, (err, info) => {
         if (err === null) {
           stockData.info = info;
-          res.send(200, stockData);
+          res.status(200).send(stockData);
         } else {
-          throw err;
+          next(err);
         }
       });
     } else {
-      throw err;
-      res.end();
+      next(err);
     }
   });
 }
