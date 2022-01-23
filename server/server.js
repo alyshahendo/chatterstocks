@@ -2,10 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const db = require('../database/database.js');
-const { JSDOM } = require( 'jsdom' );
-const { window } = new JSDOM( '' );
-const API_KEY = require('../config.js');
-const { getCompanyInformation, getCurrentStockPrice } = require('./helpers.js')
+const { getCompanyInformation, getCurrentStockPrice, getAfterHoursStockPrice, getStockPriceAndInfo } = require('./helpers.js')
 const app = express();
 
 app.use(cors());
@@ -23,25 +20,16 @@ app.get('/comment', (req, res) => {
 });
 
 app.get('/stock', (req, res) => {
-  var ticker = req.query.stock.toUpperCase();
-  var stockData = {};
-  getCurrentStockPrice(res, ticker, (err, currentPrice, ticker) => {
-    if (err === null) {
-      stockData.currentPrice = currentPrice;
-      getCompanyInformation(ticker, (err, info) => {
-        if (err === null) {
-          stockData.info = info;
-          res.send(200, stockData);
-        } else {
-          throw err;
-        }
-      });
-    } else {
-      throw err;
-      res.end();
-    }
-  });
+  const ticker = req.query.stock.toUpperCase();
+  const currentDate = new Date (Date.now());
+  const currentDay = currentDate.getDay();
 
+  // Checking if the current day is Saturday or Sunday
+  if (currentDay ===  6 || currentDay === 0) {
+    getStockPriceAndInfo(res, ticker, currentDate, getAfterHoursStockPrice);
+  } else {
+    getStockPriceAndInfo(res, ticker, currentDate, getCurrentStockPrice);
+  }
 });
 
 app.post('/comment', (req, res) => {
