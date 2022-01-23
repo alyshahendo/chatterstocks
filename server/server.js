@@ -40,7 +40,6 @@ app.post('/comment', (req, res) => {
   };
   return db.create(comment)
   .then((comments) => {
-    // db.find({ stock: })
     res.send(comments);
   }).catch((err) => {
     console.log('this is the err: ', err);
