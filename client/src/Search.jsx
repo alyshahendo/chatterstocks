@@ -26,7 +26,6 @@ function Search (props) {
             alignContent: 'center',
             ml: 45,
             mb: 5,
-            mt: 5,
             fontFamily: 'Roboto'
           }} >
             <TextField id='stock-search' label='Enter stock ticker' variant='outlined' onChange={props.updateSearch} />
