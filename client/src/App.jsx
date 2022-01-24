@@ -6,11 +6,10 @@ import CompanyInfo from './CompanyInfo';
 import CommentView from './CommentView';
 import AddComment from './AddComment';
 
-import Typography from '@material-ui/core/Typography';
-import { spacing } from '@mui/system';
-import Box from '@mui/material/Box';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { purple, red } from '@mui/material/colors';
+import theme from './Theme.js'
+import { Typography, AppBar, CssBaseline, Toolbar, Container, Button, Box }from '@material-ui/core';
+import { flexbox } from '@mui/system';
+// import { PhotoCamera } from '@material-ui/icon';
 
 class App extends React.Component {
   constructor(props) {
@@ -142,14 +141,26 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-          <Typography variant='h2' align='center' style={{color: '#2196f3'}} sx={{m: 5}} >chatterstocks</Typography>
+      <>
+      <CssBaseline />
+      <AppBar style={{background: '#2196f3'}} position='relative' color='primary' gutterBottom={true}>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          <Typography variant = 'h6'>chatterstocks</Typography>
+          <Button>Login</Button>
+        </Toolbar>
+      </AppBar>
+      <main>
+        <Container>
+        <Typography variant='h2' align='center' style={{color: '#2196f3'}} sx={{m: 5}} >chatterstocks</Typography>
           <Search updateSearch={this.updateSearch} retrieveStockInformation={this.retrieveStockInformation}/>
           <CompanyInfo stockInfo={this.state.stockInfo} stockPrice={this.state.stockPrice} />
           <br/>
           <AddComment updateCurrentCommentValue={this.updateCurrentCommentValue} saveComment={this.saveComment}/>
           <CommentView comments={this.state.comments} stock={this.state.stock}/>
-      </div>
+        </Container>
+      </main>
+      </>
+
     )
   }
 }

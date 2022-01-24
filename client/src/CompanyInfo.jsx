@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 
 function CompanyInfo (props) {
   return (
-    <Typography align='justify' border={4}>
       <table>
         <tr>
           <td>Name:</td>
@@ -28,7 +27,6 @@ function CompanyInfo (props) {
           <td>{'$' + Math.round(props.stockPrice) + ' per share'}</td>
         </tr>
       </table>
-    </Typography>
   )
 }
 
