@@ -6,10 +6,8 @@ import CompanyInfo from './CompanyInfo';
 import CommentView from './CommentView';
 import AddComment from './AddComment';
 
-import theme from './Theme.js'
 import { Typography, AppBar, CssBaseline, Toolbar, Container, Button, Box }from '@material-ui/core';
 import { flexbox } from '@mui/system';
-// import { PhotoCamera } from '@material-ui/icon';
 
 class App extends React.Component {
   constructor(props) {
@@ -146,7 +144,7 @@ class App extends React.Component {
       <AppBar style={{background: '#2196f3'}} position='relative' color='primary' gutterBottom={true}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Typography variant = 'h6'>chatterstocks</Typography>
-          <Button>Login</Button>
+          {/* <Button>Login</Button> */}
         </Toolbar>
       </AppBar>
       <main>
