@@ -8,7 +8,6 @@ import Box from '@mui/material/Box';
 import { flexbox } from '@mui/system';
 import Button from '@mui/material/Button';
 
-import theme from './Theme.js'
 import Typography from '@material-ui/core/Typography';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 

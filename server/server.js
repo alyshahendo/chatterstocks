@@ -23,8 +23,24 @@ app.get('/stock', (req, res, next) => {
   const currentDate = new Date (Date.now());
   const currentDay = currentDate.getDay();
 
-  // Checking if the current day is Saturday or Sunday
+  const currentTime = currentDate.toLocaleTimeString('it-IT');
+  let openTime = new Date ();
+  openTime.setHours(9,30,00);
+  let closeTime = new Date ();
+  closeTime.setHours(16,00,00);
+
+  let afterHours = false;
+
   if (currentDay ===  6 || currentDay === 0) {
+    afterHours = true;
+  }
+
+  if (currentDate < openTime || currentDate > closeTime) {
+    afterHours = true;
+  }
+
+  // Checking if the current day is Saturday or Sunday
+  if (afterHours) {
     getStockPriceAndInfo(res, ticker, currentDate, getAfterHoursStockPrice, next);
   } else {
     getStockPriceAndInfo(res, ticker, currentDate, getCurrentStockPrice, next);

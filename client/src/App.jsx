@@ -141,12 +141,6 @@ class App extends React.Component {
     return (
       <>
       <CssBaseline />
-      <AppBar style={{background: '#2196f3'}} position='relative' color='primary' gutterBottom={true}>
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography variant = 'h6'>chatterstocks</Typography>
-          {/* <Button>Login</Button> */}
-        </Toolbar>
-      </AppBar>
       <main>
         <Container>
         <Typography variant='h2' align='center' style={{color: '#2196f3'}} sx={{m: 5}} >chatterstocks</Typography>

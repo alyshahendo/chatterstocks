@@ -52,19 +52,22 @@ const getAfterHoursStockPrice = (res, ticker, currentDate, callback) => {
   const currentDateJSON = currentDate.toJSON().substring(0, 10);
   const currentDay = currentDate.getDay();
   let daysSinceLastBusinessDate = 0;
+
   if (currentDay === 0) {
     daysSinceLastBusinessDate = 2;
-  } else {
+  } else if (currentDay === 6) {
     daysSinceLastBusinessDate = 1;
   }
+
   const lastBusinessDate = currentDate.getDate() - daysSinceLastBusinessDate;
   const lastBusinessDateJSON = currentDate.toJSON().substring(0, 8) + lastBusinessDate;
-
-  const url = `https://api.polygon.io/v1/open-close/${ticker}/${lastBusinessDateJSON}`;
+  console.log(lastBusinessDateJSON)
+  const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/prev?adjusted=true`;
 
   fetchData(url,
     (stockData) => {
-      var currentPrice = stockData.afterHours;
+      var currentPrice = stockData.results[0].vw;
+      console.log(stockData.results)
       callback(null, currentPrice, ticker);
     },
     (err) => {
