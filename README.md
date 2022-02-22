@@ -23,6 +23,7 @@ This application is still in development. Features to be added:
 
 ## Technologies
 This project was created with Javascript, HTML and CSS in addition to the following:
+* React - For front-end development.
 * Material UI - For styling
 * Node.js - For server-side development.
 * Express - For server-side development.
