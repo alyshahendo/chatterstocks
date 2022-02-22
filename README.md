@@ -15,8 +15,8 @@ This is a social media application inspired by the website, [StockTwits](https:/
 Users of this application can search a company by its stock ticker to find its current stock price and information about the company. Users can also leave comments on each stock's page.
 
 This application is still in development. Features to be added:
-* Authentication to allow users to log in
-* Autocomplete feature for search bar
+* Authentication to allow users to log in.
+* Autocomplete feature for search bar.
 
 ## Demo
 ![Chatterstocks Application Demo](https://i.imgur.com/RCb7X3p.gif) 
